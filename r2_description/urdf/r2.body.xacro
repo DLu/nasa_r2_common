@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot>
+
+  <non_visual_link name="robot_base"/>
+
+  <link name="waist_center">
+    <visual>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </visual>
+    <collision>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+   </link>
+
+  <non_visual_link name="robot_reference"/>
+
+  <link name="body_cover">
+    <visual>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body_Cover.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </visual>
+    <collision>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Body_Cover.dae"/>  
+      </geometry>
+      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+    </collision>
+    <inertial>
+        <mass value="0.1"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+   <link name="backpack">
+    <visual>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Backpack.dae"/>  
+      </geometry>
+      <origin rpy="0 0 0.25" xyz="0.0 0.0 -0.54"/>
+    </visual>
+    <collision>
+      <geometry>
+         <mesh filename="package://r2_description/meshes/Backpack.dae"/>  
+      </geometry>
+      <origin rpy="0 0 0.25" xyz="0.0 0.0 -0.54"/>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
+    </inertial>
+  </link>
+
+  <non_visual_link name="chest_center"/>
+  <non_visual_link name="chest_base"/>  
+
+  <joint name="robot/j0" type="fixed">
+    <parent link="base"/>
+    <child link="robot_base"/>
+   <origin rpy="0 3.14 3.14" xyz="0.0 0.0 0.02"/> 
+  </joint>
+  <joint name="waist/j0" type="revolute">
+    <parent link="robot_base"/>
+    <child link="waist_center"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0.0 0 0.0" xyz="0.0 0.0 0.0"/>
+    <dynamics damping="10.0" />
+    <limit effort="10000000.0" lower="-3.14" upper="3.14" velocity="1000"/>
+  </joint>
+  <joint name="robot/j1" type="fixed">
+    <parent link="waist_center"/>
+    <child link="robot_reference"/>
+    <origin rpy="0.0 0 0.0" xyz="0.1234 0.0 0.0"/>
+  </joint>
+  <joint name="body/j0" type="fixed">
+    <parent link="waist_center"/>
+    <child link="body_cover"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0 0.0 0.0"/>
+  </joint>
+  <joint name="backpack/j0" type="fixed">
+    <parent link="waist_center"/>
+    <child link="backpack"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0 0.0 0.0"/>
+  </joint>
+  <joint name="chest/j0" type="fixed">
+    <parent link="waist_center"/>
+    <child link="chest_center"/>
+    <origin rpy="0.0 0.0 0.0" xyz="-0.01235 0.0 0.0"/>
+  </joint>
+  <joint name="chest/j1" type="fixed">
+    <parent link="chest_center"/>
+    <child link="chest_base"/>
+    <origin rpy="0.0 -0.0 0.0 " xyz="-0.05299202 -0.0 -0.5442458"/>
+  </joint>
+
+</robot>

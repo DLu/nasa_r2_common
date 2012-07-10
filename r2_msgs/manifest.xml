@@ -1,0 +1,14 @@
+<package>
+  <description brief="r2_msgs">
+
+     r2_msgs
+
+  </description>
+  <author>Paul Dinh</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/r2_msgs</url>
+
+</package>
+
+
