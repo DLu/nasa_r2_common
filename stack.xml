@@ -1,6 +1,6 @@
 <stack>
-  <description brief="nasa_r2_common">nasa_r2_common</description>
-  <author>Maintained by Paul Dinh</author>
+  <description brief="nasa_r2_common">A stack with URDF descriptions and supporting files used by NASA packages.</description>
+  <author>Paul Dinh, Stephen Hart, Ross Taylor, Karl Brandt</author>
   <license>BSD</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/nasa_r2_common</url>
