@@ -1,14 +1,119 @@
 <?xml version="1.0"?>
 <robot>
 
-  <link name="right_thumb_base">
+  <property name="right_arm_hand_thumb_j0_damping" value= "0.1" />
+  <property name="right_arm_hand_thumb_j0_friction" value= "0.0" />
+  <property name="right_arm_hand_thumb_j1_damping" value= "0.1" />
+  <property name="right_arm_hand_thumb_j1_friction" value= "0.0" />
+  <property name="right_arm_hand_thumb_j2_damping" value= "0.1" />
+  <property name="right_arm_hand_thumb_j2_friction" value= "0.0" />
+  <property name="right_arm_hand_thumb_j3_damping" value= "0.1" />
+  <property name="right_arm_hand_thumb_j3_friction" value= "0.0" />
+
+  <property name="right_arm_hand_index_j0_damping" value= "0.1" />
+  <property name="right_arm_hand_index_j0_friction" value= "0.0" />
+  <property name="right_arm_hand_index_j1_damping" value= "0.1" />
+  <property name="right_arm_hand_index_j1_friction" value= "0.0" />
+  <property name="right_arm_hand_index_j2_damping" value= "0.1" />
+  <property name="right_arm_hand_index_j2_friction" value= "0.0" />
+  <property name="right_arm_hand_index_j3_damping" value= "0.1" />
+  <property name="right_arm_hand_index_j3_friction" value= "0.0" />
+
+  <property name="right_arm_hand_middle_j0_damping" value= "0.1" />
+  <property name="right_arm_hand_middle_j0_friction" value= "0.0" />
+  <property name="right_arm_hand_middle_j1_damping" value= "0.1" />
+  <property name="right_arm_hand_middle_j1_friction" value= "0.0" />
+  <property name="right_arm_hand_middle_j2_damping" value= "0.1" />
+  <property name="right_arm_hand_middle_j2_friction" value= "0.0" />
+  <property name="right_arm_hand_middle_j3_damping" value= "0.1" />
+  <property name="right_arm_hand_middle_j3_friction" value= "0.0" />
+
+  <property name="right_arm_hand_ring_j0_damping" value= "0.1" />
+  <property name="right_arm_hand_ring_j0_friction" value= "0.0" />
+  <property name="right_arm_hand_ring_j1_damping" value= "0.1" />
+  <property name="right_arm_hand_ring_j1_friction" value= "0.0" />
+  <property name="right_arm_hand_ring_j2_damping" value= "0.1" />
+  <property name="right_arm_hand_ring_j2_friction" value= "0.0" />
+
+  <property name="right_arm_hand_little_j0_damping" value= "0.1" />
+  <property name="right_arm_hand_little_j0_friction" value= "0.0" />
+  <property name="right_arm_hand_little_j1_damping" value= "0.1" />
+  <property name="right_arm_hand_little_j1_friction" value= "0.0" />
+  <property name="right_arm_hand_little_j2_damping" value= "0.1" />
+  <property name="right_arm_hand_little_j2_friction" value= "0.0" />
+
+<joint name="${robot_name}right_arm/hand/thumb/joint0" type="revolute">
+    <parent link="${robot_name}right_wrist_yaw"/>
+    <child link="${robot_name}right_thumb_base"/>
+    <origin xyz="0.03302 -0.03048 0.00635 " rpy=" 1.57079632679 0.174532791018 -1.30899687745 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.2217" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_thumb_j0_damping}" friction="${right_arm_hand_thumb_j0_friction}"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/right_index_base/right_index_base" type="fixed">
+    <parent link="${robot_name}right_wrist_yaw"/>
+    <child link="${robot_name}right_index_base"/>
+    <origin xyz=" 0.0994646728 -0.0271119346 -0.0161544 " rpy=" 0.0 -0.0 -0.122172725275  " />
+  </joint>
+
+  <joint name="${robot_name}right_arm/hand/index/joint0" type="revolute">
+    <parent link="${robot_name}right_index_base"/>
+    <child link="${robot_name}right_index_yaw"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="-0.3491" upper="0.3491" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_index_j0_damping}" friction="${right_arm_hand_index_j0_friction}"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/right_middle_base/right_middle_base" type="fixed">
+    <parent link="${robot_name}right_wrist_yaw"/>
+    <child link="${robot_name}right_middle_base"/>
+    <origin xyz="0.10646537 -0.00254 -0.0161544 " rpy=" 0.0 -0.0 0.0 " />
+  </joint>
+
+  <joint name="${robot_name}right_arm/hand/middle/joint0" type="revolute">
+    <parent link="${robot_name}right_middle_base"/>
+    <child link="${robot_name}right_middle_yaw"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="-0.3491" upper="0.3491" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_middle_j0_damping}" friction="${right_arm_hand_middle_j0_friction}"/>
+  </joint>
+
+
+  <joint name="${robot_name}right_arm/hand/ring/joint0" type="revolute">
+    <parent link="${robot_name}right_wrist_yaw"/>
+    <child link="${robot_name}right_ring_proximal"/>
+    <origin xyz=" 0.1084539614 0.019792569 -0.012319 " rpy=" 1.57079632679 -0.0 0.122172725275  " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_ring_j0_damping}" friction="${right_arm_hand_ring_j0_friction}"/>
+  </joint>
+
+  <joint name="${robot_name}right_arm/hand/little/joint0" type="revolute">
+    <parent link="${robot_name}right_wrist_yaw"/>
+    <child link="${robot_name}right_little_proximal"/>
+    <origin xyz=" 0.094635701 0.0403792436 -0.0060878212 " rpy=" 1.53588943985 -0.0872667473393 0.17453258148  " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_little_j0_damping}" friction="${right_arm_hand_little_j0_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_thumb_base">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
 
-  <link name="right_thumb_proximal">
+  <joint name="${robot_name}fixed/right_thumb_base/right_thumb_proximal" type="fixed">
+    <parent link="${robot_name}right_thumb_base"/>
+    <child link="${robot_name}right_thumb_proximal"/>
+    <origin xyz=" 0.011938 0.0 0.0 " rpy=" -1.570796 -0.0 0.0 " />
+  </joint>
+
+  <link name="${robot_name}right_thumb_proximal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -27,7 +132,16 @@
     </collision>
   </link>
 
-  <link name="right_thumb_medial_prime">
+  <joint name="${robot_name}right_arm/hand/thumb/joint1" type="revolute">
+    <parent link="${robot_name}right_thumb_proximal"/>
+    <child link="${robot_name}right_thumb_medial_prime"/>
+    <origin xyz=" 0.0 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.3963" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_thumb_j1_damping}" friction="${right_arm_hand_thumb_j1_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_thumb_medial_prime">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -46,7 +160,16 @@
     </collision>
   </link>
 
-  <link name="right_thumb_medial">
+  <joint name="${robot_name}right_arm/hand/thumb/joint2" type="revolute">
+    <parent link="${robot_name}right_thumb_medial_prime"/>
+    <child link="${robot_name}right_thumb_medial"/>
+    <origin xyz=" 0.030734 -0.001905 -0.00254 " rpy=" 0.698132284627 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.2217" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_thumb_j2_damping}" friction="${right_arm_hand_thumb_j2_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_thumb_medial">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -65,7 +188,16 @@
     </collision>
   </link>
 
-  <link name="right_thumb_distal">
+  <joint name="${robot_name}right_arm/hand/thumb/joint3" type="revolute">
+    <parent link="${robot_name}right_thumb_medial"/>
+    <child link="${robot_name}right_thumb_distal"/>
+    <origin xyz=" 0.03937 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="-0.5236" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_thumb_j3_damping}" friction="${right_arm_hand_thumb_j3_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_thumb_distal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -84,22 +216,43 @@
     </collision>
   </link>
 
-  <link name="right_thumb_tip">
+  <joint name="${robot_name}fixed/right_thumb_distal/right_thumb_tip" type="fixed">
+    <parent link="${robot_name}right_thumb_distal"/>
+    <child link="${robot_name}right_thumb_tip"/>
+    <origin xyz=" 0.03302 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+  </joint>
+
+  <link name="${robot_name}right_thumb_tip">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
 
-
-  <link name="right_index_base">
+  <link name="${robot_name}right_index_base">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
 
-  <link name="right_index_proximal">
+  <link name="${robot_name}right_index_yaw">
+    <inertial>
+      <mass value=".05"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <joint name="${robot_name}right_arm/hand/index/joint1" type="revolute">
+    <parent link="${robot_name}right_index_yaw"/>
+    <child link="${robot_name}right_index_proximal"/>
+    <origin xyz=" 0.009652 0.0 0.0 " rpy=" 1.570796 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_index_j1_damping}" friction="${right_arm_hand_index_j1_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_index_proximal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -118,7 +271,16 @@
     </collision>
   </link>
 
-  <link name="right_index_medial">
+  <joint name="${robot_name}right_arm/hand/index/joint2" type="revolute">
+    <parent link="${robot_name}right_index_proximal"/>
+    <child link="${robot_name}right_index_medial"/>
+    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_index_j2_damping}" friction="${right_arm_hand_index_j2_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_index_medial">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -137,7 +299,16 @@
     </collision>
   </link>
 
-  <link name="right_index_distal">
+  <joint name="${robot_name}right_arm/hand/index/joint3" type="revolute">
+    <parent link="${robot_name}right_index_medial"/>
+    <child link="${robot_name}right_index_distal"/>
+    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_index_j3_damping}" friction="${right_arm_hand_index_j3_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_index_distal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -156,22 +327,43 @@
     </collision>
   </link>
 
-  <link name="right_index_tip">
+  <joint name="${robot_name}fixed/right_index_distal/right_index_tip" type="fixed">
+    <parent link="${robot_name}right_index_distal"/>
+    <child link="${robot_name}right_index_tip"/>
+    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+  </joint>
+
+  <link name="${robot_name}right_index_tip">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
 
-
-   <link name="right_middle_base">
+  <link name="${robot_name}right_middle_base">
     <inertial>
       <mass value=".0010"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
 
-  <link name="right_middle_proximal">
+  <link name="${robot_name}right_middle_yaw">
+    <inertial>
+      <mass value=".0010"/>
+      <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
+    </inertial>
+  </link>
+
+  <joint name="${robot_name}right_arm/hand/middle/joint1" type="revolute">
+    <parent link="${robot_name}right_middle_yaw"/>
+    <child link="${robot_name}right_middle_proximal"/>
+    <origin xyz=" 0.009652 0.0 0.0 " rpy=" 1.570796 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_middle_j1_damping}" friction="${right_arm_hand_middle_j1_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_middle_proximal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -190,7 +382,16 @@
     </collision>
   </link>
 
-  <link name="right_middle_medial">
+  <joint name="${robot_name}right_arm/hand/middle/joint2" type="revolute">
+    <parent link="${robot_name}right_middle_proximal"/>
+    <child link="${robot_name}right_middle_medial"/>
+    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_middle_j2_damping}" friction="${right_arm_hand_middle_j2_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_middle_medial">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -209,7 +410,16 @@
     </collision>
   </link>
 
-  <link name="right_middle_distal">
+  <joint name="${robot_name}right_arm/hand/middle/joint3" type="revolute">
+    <parent link="${robot_name}right_middle_medial"/>
+    <child link="${robot_name}right_middle_distal"/>
+    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_middle_j3_damping}" friction="${right_arm_hand_middle_j3_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_middle_distal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -228,15 +438,20 @@
     </collision>
   </link>
 
-  <link name="right_middle_tip">
+  <joint name="${robot_name}fixed/right_middle_distal/right_middle_tip" type="fixed">
+    <parent link="${robot_name}right_middle_distal"/>
+    <child link="${robot_name}right_middle_tip"/>
+    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+  </joint>
+
+  <link name="${robot_name}right_middle_tip">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
   
-
-  <link name="right_ring_proximal">
+  <link name="${robot_name}right_ring_proximal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -255,7 +470,16 @@
     </collision>
   </link>
 
-  <link name="right_ring_medial">
+  <joint name="${robot_name}right_arm/hand/ring/joint1" type="revolute">
+    <parent link="${robot_name}right_ring_proximal"/>
+    <child link="${robot_name}right_ring_medial"/>
+    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_ring_j1_damping}" friction="${right_arm_hand_ring_j1_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_ring_medial">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -274,7 +498,16 @@
     </collision>
   </link>
 
-  <link name="right_ring_distal">
+  <joint name="${robot_name}right_arm/hand/ring/joint2" type="revolute">
+    <parent link="${robot_name}right_ring_medial"/>
+    <child link="${robot_name}right_ring_distal"/>
+    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_ring_j2_damping}" friction="${right_arm_hand_ring_j2_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_ring_distal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -293,14 +526,20 @@
     </collision>
   </link>
 
-  <link name="right_ring_tip">
+  <joint name="${robot_name}fixed/right_ring_distal/right_ring_tip" type="fixed">
+    <parent link="${robot_name}right_ring_distal"/>
+    <child link="${robot_name}right_ring_tip"/>
+    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+  </joint>
+
+  <link name="${robot_name}right_ring_tip">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
 
-  <link name="right_little_proximal">
+  <link name="${robot_name}right_little_proximal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -319,7 +558,16 @@
     </collision>
   </link>
 
-  <link name="right_little_medial">
+  <joint name="${robot_name}right_arm/hand/little/joint1" type="revolute">
+    <parent link="${robot_name}right_little_proximal"/>
+    <child link="${robot_name}right_little_medial"/>
+    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_little_j1_damping}" friction="${right_arm_hand_little_j1_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_little_medial">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -338,7 +586,16 @@
     </collision>
   </link>
 
-  <link name="right_little_distal">
+  <joint name="${robot_name}right_arm/hand/little/joint2" type="revolute">
+    <parent link="${robot_name}right_little_medial"/>
+    <child link="${robot_name}right_little_distal"/>
+    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+    <axis xyz="0 0 1"/>
+    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
+    <dynamics damping="${right_arm_hand_little_j2_damping}" friction="${right_arm_hand_little_j2_friction}"/>
+  </joint>
+
+  <link name="${robot_name}right_little_distal">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
@@ -357,197 +614,17 @@
     </collision>
   </link>
 
-  <link name="right_little_tip">
+  <joint name="${robot_name}fixed/right_little_distal/right_little_tip" type="fixed">
+    <parent link="${robot_name}right_little_distal"/>
+    <child link="${robot_name}right_little_tip"/>
+    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
+  </joint>
+
+  <link name="${robot_name}right_little_tip">
     <inertial>
       <mass value=".05"/>
       <inertia ixx=".0010" ixy="0.0" ixz="0.0" iyy=".0010" iyz="0.0" izz=".0010"/>
     </inertial>
   </link>
-
-<joint name="right_thumb/j0" type="revolute">
-    <parent link="right_wrist_yaw"/>
-    <child link="right_thumb_base"/>
-    <origin xyz="0.03302 -0.03048 0.00635 " rpy=" 1.57079632679 0.174532791018 -1.30899687745 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.2217" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_thumb/j1" type="fixed">
-    <parent link="right_thumb_base"/>
-    <child link="right_thumb_proximal"/>
-    <origin xyz=" 0.011938 0.0 0.0 " rpy=" -1.570796 -0.0 0.0 " />
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_thumb/j2" type="revolute">
-    <parent link="right_thumb_proximal"/>
-    <child link="right_thumb_medial_prime"/>
-    <origin xyz=" 0.0 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.3963" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_thumb/j3" type="revolute">
-    <parent link="right_thumb_medial_prime"/>
-    <child link="right_thumb_medial"/>
-    <origin xyz=" 0.030734 -0.001905 -0.00254 " rpy=" 0.698132284627 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.2217" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_thumb/j4" type="revolute">
-    <parent link="right_thumb_medial"/>
-    <child link="right_thumb_distal"/>
-    <origin xyz=" 0.03937 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="-0.5236" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_thumb/j5" type="fixed">
-    <parent link="right_thumb_distal"/>
-    <child link="right_thumb_tip"/>
-    <origin xyz=" 0.03302 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <dynamics damping="0.1" />
-  </joint>
-
-
-  <joint name="right_index/j0" type="revolute">
-    <parent link="right_wrist_yaw"/>
-    <child link="right_index_base"/>
-    <origin xyz=" 0.0994646728 -0.0271119346 -0.0161544 " rpy=" 0.0 -0.0 -0.122172725275  " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="-0.3491" upper="0.3491" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_index/j1" type="revolute">
-    <parent link="right_index_base"/>
-    <child link="right_index_proximal"/>
-    <origin xyz=" 0.009652 0.0 0.0 " rpy=" 1.570796 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_index/j2" type="revolute">
-    <parent link="right_index_proximal"/>
-    <child link="right_index_medial"/>
-    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_index/j3" type="revolute">
-    <parent link="right_index_medial"/>
-    <child link="right_index_distal"/>
-    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_index/j4" type="fixed">
-    <parent link="right_index_distal"/>
-    <child link="right_index_tip"/>
-    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <dynamics damping="0.1" />
-  </joint>
-
-  <joint name="right_middle/j0" type="revolute">
-    <parent link="right_wrist_yaw"/>
-    <child link="right_middle_base"/>
-    <origin xyz="0.10646537 -0.00254 -0.0161544 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="-0.3491" upper="0.3491" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_middle/j1" type="revolute">
-    <parent link="right_middle_base"/>
-    <child link="right_middle_proximal"/>
-    <origin xyz=" 0.009652 0.0 0.0 " rpy=" 1.570796 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_middle/j2" type="revolute">
-    <parent link="right_middle_proximal"/>
-    <child link="right_middle_medial"/>
-    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_middle/j3" type="revolute">
-    <parent link="right_middle_medial"/>
-    <child link="right_middle_distal"/>
-    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_middle/j4" type="fixed">
-    <parent link="right_middle_distal"/>
-    <child link="right_middle_tip"/>
-    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <dynamics damping="0.1" />
-  </joint>
-
-  <joint name="right_ring/j0" type="revolute">
-    <parent link="right_wrist_yaw"/>
-    <child link="right_ring_proximal"/>
-    <origin xyz=" 0.1084539614 0.019792569 -0.012319 " rpy=" 1.57079632679 -0.0 0.122172725275  " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_ring/j1" type="revolute">
-    <parent link="right_ring_proximal"/>
-    <child link="right_ring_medial"/>
-    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_ring/j2" type="revolute">
-    <parent link="right_ring_medial"/>
-    <child link="right_ring_distal"/>
-    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_ring/j3" type="fixed">
-    <parent link="right_ring_distal"/>
-    <child link="right_ring_tip"/>
-    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <dynamics damping="0.1" />
-  </joint>
-
-  <joint name="right_little/j0" type="revolute">
-    <parent link="right_wrist_yaw"/>
-    <child link="right_little_proximal"/>
-    <origin xyz=" 0.094635701 0.0403792436 -0.0060878212 " rpy=" 1.53588943985 -0.0872667473393 0.17453258148  " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_little/j1" type="revolute">
-    <parent link="right_little_proximal"/>
-    <child link="right_little_medial"/>
-    <origin xyz=" 0.04445 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_little/j2" type="revolute">
-    <parent link="right_little_medial"/>
-    <child link="right_little_distal"/>
-    <origin xyz=" 0.03048 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <axis xyz="0 0 1"/>
-    <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
-    <dynamics damping="0.1" />
-  </joint>
-  <joint name="right_little/j3" type="fixed">
-    <parent link="right_little_distal"/>
-    <child link="right_little_tip"/>
-    <origin xyz=" 0.024638 0.0 0.0 " rpy=" 0.0 -0.0 0.0 " />
-    <dynamics damping="0.1" />
-  </joint>
 
 </robot>

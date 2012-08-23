@@ -1,7 +1,31 @@
 <?xml version="1.0"?>
 <robot>
 
-  <link name="left_shoulder_roll">
+  <property name="left_arm_j0_damping" value= "10.0" />
+  <property name="left_arm_j0_friction" value= "0.0" />
+  <property name="left_arm_j1_damping" value= "10.0" />
+  <property name="left_arm_j1_friction" value= "0.0" />
+  <property name="left_arm_j2_damping" value= "10.0" />
+  <property name="left_arm_j2_friction" value= "0.0" />
+  <property name="left_arm_j3_damping" value= "1.0" />
+  <property name="left_arm_j3_friction" value= "0.0" />
+  <property name="left_arm_j4_damping" value= "1.0" />
+  <property name="left_arm_j4_friction" value= "0.0" />
+  <property name="left_arm_j5_damping" value= "1.0" />
+  <property name="left_arm_j5_friction" value= "0.0" />
+  <property name="left_arm_j6_damping" value= "1.0" />
+  <property name="left_arm_j6_friction" value= "0.0" />
+
+  <joint name="${robot_name}left_arm/joint0" type="revolute">
+    <parent link="${robot_name}chest_base"/>
+    <child link="${robot_name}left_shoulder_roll"/>
+    <origin rpy=" -1.5664 -0.0 -2.8802 " xyz=" -0.0 -0.0 0.0 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j0_damping}" friction="${left_arm_j0_friction}"/>
+    <limit effort="100.0" lower="-1.57" upper="1.57" velocity="1000"/>
+  </joint>
+
+  <link name="${robot_name}left_shoulder_roll">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Left_Shoulder_Upper.dae"/>
@@ -22,11 +46,16 @@
     </inertial>
   </link>
   
-<!--
-  <link name="left_shoulder_roll_mass"/>
--->
+  <joint name="${robot_name}left_arm/joint1" type="revolute">
+    <parent link="${robot_name}left_shoulder_roll"/>
+    <child link="${robot_name}left_shoulder_pitch"/>
+    <origin rpy=" -1.5701 -0.0 1.570796 " xyz=" 0.0 0.0 0.316611 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j1_damping}" friction="${left_arm_j1_friction}"/>
+    <limit effort="100.0" lower="-1.66" upper=".175" velocity="1000"/>
+  </joint>
 
-  <link name="left_shoulder_pitch">
+  <link name="${robot_name}left_shoulder_pitch">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Left_Shoulder_Lower.dae"/>
@@ -47,11 +76,16 @@
     </inertial>
   </link>
 
-<!--
-  <link name="left_shoulder_pitch_mass"/>
--->
+  <joint name="${robot_name}left_arm/joint2" type="revolute">
+    <parent link="${robot_name}left_shoulder_pitch"/>
+    <child link="${robot_name}left_upper_arm"/>
+    <origin rpy=" 1.57 -0.0 0.0 " xyz=" 0.0 0.0 0.0 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j2_damping}" friction="${left_arm_j2_friction}"/>
+    <limit effort="100.0" lower="-4.89" upper="-0.79" velocity="1000"/>
+  </joint>
 
-  <link name="left_upper_arm">
+  <link name="${robot_name}left_upper_arm">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Left_Upper_Arm.dae"/>
@@ -72,11 +106,16 @@
     </inertial>
   </link>
 
-<!--
- <link name="left_upper_arm_mass"/>
--->
+  <joint name="${robot_name}left_arm/joint3" type="revolute">
+    <parent link="${robot_name}left_upper_arm"/>
+    <child link="${robot_name}left_elbow"/>
+    <origin rpy=" -1.5748 -0.0 0.0 " xyz=" -0.05437886 -0.0 0.3564382 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j3_damping}" friction="${left_arm_j3_friction}"/>
+    <limit effort="100.0" lower="-2.79" upper="-.087" velocity="1000"/>
+  </joint>
 
-  <link name="left_elbow">
+  <link name="${robot_name}left_elbow">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Left_Elbow.dae"/>
@@ -97,11 +136,16 @@
     </inertial>
   </link>
 
-<!--
- <link name="left_elbow_mass"/>
--->
+  <joint name="${robot_name}left_arm/joint4" type="revolute">
+    <parent link="${robot_name}left_elbow"/>
+    <child link="${robot_name}left_lower_arm"/>
+    <origin rpy=" 1.5738 -0.0 0.0 " xyz=" 0.0540385 0.0 0.0 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j4_damping}" friction="${left_arm_j4_friction}"/>
+    <limit effort="100.0" lower="-1.3" upper="4.45" velocity="1000"/>
+  </joint>
 
-  <link name="left_lower_arm">
+  <link name="${robot_name}left_lower_arm">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Left_Forearm.dae"/>
@@ -122,11 +166,16 @@
     </inertial>
   </link>
 
-<!--
-  <link name="left_lower_arm_mass"/>
--->
+  <joint name="${robot_name}left_arm/joint5" type="revolute">
+    <parent link="${robot_name}left_lower_arm"/>
+    <child link="${robot_name}left_wrist_pitch"/>
+    <origin rpy=" -1.5952 -0.0 0.0 " xyz=" 0.0 0.0 0.3570478 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j5_damping}" friction="${left_arm_j5_friction}"/>
+    <limit effort="100.0" lower="-1.22" upper="1.22" velocity="1000"/>
+  </joint>
 
-  <link name="left_wrist_pitch">
+  <link name="${robot_name}left_wrist_pitch">
     <inertial>
         <origin xyz="-0.004064   0.000000152908   -0.00092202"/>
         <mass value="0.1165732391"/>
@@ -134,11 +183,16 @@
     </inertial>
   </link>
 
-<!--
- <link name="left_wrist_pitch_mass"/>
--->
+  <joint name="${robot_name}left_arm/joint6" type="revolute">
+    <parent link="${robot_name}left_wrist_pitch"/>
+    <child link="${robot_name}left_wrist_yaw"/>
+    <origin rpy=" 1.6505 -0.0 -1.5727 " xyz=" -0.00001156 -0.006072621 0.0 "/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${left_arm_j6_damping}" friction="${left_arm_j6_friction}"/>
+    <limit effort="100.0" lower="-0.785" upper="0.785" velocity="1000"/>
+  </joint>
 
-  <link name="left_wrist_yaw">
+  <link name="${robot_name}left_wrist_yaw">
     <inertial>
         <origin xyz="-0.00090932   -0.0253746  0.067564     "/>
         <mass value="1.1884120094"/>
@@ -146,11 +200,13 @@
     </inertial>
   </link>
 
-<!--
- <link name="left_wrist_yaw_mass"/>
--->
+  <joint name="${robot_name}fixed/left_wrist_yaw/left_palm" type="fixed">
+    <parent link="${robot_name}left_wrist_yaw"/>
+    <child link="${robot_name}left_palm"/>
+    <origin rpy=" 0.0 -0.0 -0.014 " xyz=" 0.0 -0.0 0.0 "/>
+  </joint>
 
-  <link name="left_palm">
+  <link name="${robot_name}left_palm">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Left_Palm.dae"/>
@@ -170,119 +226,5 @@
     </inertial>
   </link>
 
-  <joint name="left/j0" type="revolute">
-    <parent link="chest_base"/>
-    <child link="left_shoulder_roll"/>
-    <origin rpy=" -1.5664 -0.0 -2.8802 " xyz=" -0.0 -0.0 0.0 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="10.0" />
-    <limit effort="100.0" lower="-1.57" upper="1.57" velocity="1000"/>
-  </joint>
-  <joint name="left/j1" type="revolute">
-    <parent link="left_shoulder_roll"/>
-    <child link="left_shoulder_pitch"/>
-    <origin rpy=" -1.5701 -0.0 1.570796 " xyz=" 0.0 0.0 0.316611 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="10.0" />
-    <limit effort="100.0" lower="-1.66" upper=".175" velocity="1000"/>
-  </joint>
-  <joint name="left/j2" type="revolute">
-    <parent link="left_shoulder_pitch"/>
-    <child link="left_upper_arm"/>
-    <origin rpy=" 1.57 -0.0 0.0 " xyz=" 0.0 0.0 0.0 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="1.0" />
-    <!-- limits expanded because Gazebo starts up at zero causing stability issues-->
-<!--    <limit effort="100.0" lower="-4.89" upper="-0.79" velocity="1000"/>-->
-    <limit effort="100.0" lower="-5.68" upper="0.0" velocity="1000"/>
-  </joint>u
-  <joint name="left/j3" type="revolute">
-    <parent link="left_upper_arm"/>
-    <child link="left_elbow"/>
-    <origin rpy=" -1.5748 -0.0 0.0 " xyz=" -0.05437886 -0.0 0.3564382 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="1.0" />
-    <!-- limits expanded because Gazebo starts up at zero causing stability issues-->
-<!--    <limit effort="100.0" lower="-2.79" upper="-.087" velocity="1000"/>-->
-    <limit effort="100.0" lower="-2.877" upper="0.0" velocity="1000"/>
-  </joint>
-  <joint name="left/j4" type="revolute">
-    <parent link="left_elbow"/>
-    <child link="left_lower_arm"/>
-    <origin rpy=" 1.5738 -0.0 0.0 " xyz=" 0.0540385 0.0 0.0 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="1.0" />
-    <limit effort="100.0" lower="-1.3" upper="4.45" velocity="1000"/>
-  </joint>
-  <joint name="left/j5" type="revolute">
-    <parent link="left_lower_arm"/>
-    <child link="left_wrist_pitch"/>
-    <origin rpy=" -1.5952 -0.0 0.0 " xyz=" 0.0 0.0 0.3570478 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="1.0" />
-    <limit effort="100.0" lower="-1.22" upper="1.22" velocity="1000"/>
-  </joint>
-  <joint name="left/j6" type="revolute">
-    <parent link="left_wrist_pitch"/>
-    <child link="left_wrist_yaw"/>
-    <origin rpy=" 1.6505 -0.0 -1.5727 " xyz=" -0.00001156 -0.006072621 0.0 "/>
-    <axis xyz="0 0 1"/>
-    <dynamics damping="1.0" />
-    <limit effort="100.0" lower="-0.785" upper="0.785" velocity="1000"/>
-  </joint>
-  <joint name="left/j7" type="fixed">
-    <parent link="left_wrist_yaw"/>
-    <child link="left_palm"/>
-    <origin rpy=" 0.0 -0.0 -0.014 " xyz=" 0.0 -0.0 0.0 "/>
-  </joint>
-
-<!--
-  <joint name="left/m0" type="fixed">
-    <parent link="left_shoulder_roll"/>
-    <child link="left_shoulder_roll_mass"/>
-    <origin xyz="-0.00131572   -0.0089916 0.10287   "/> 
-  </joint>
-
-
-  <joint name="left/m1" type="fixed">
-    <parent link="left_shoulder_pitch"/>
-    <child link="left_shoulder_pitch_mass"/>
-    <origin xyz="-0.00028448   0.037084 0.0077978   "/>
-  </joint>
-
-
-  <joint name="left/m2" type="fixed">
-    <parent link="left_upper_arm"/>
-    <child link="left_upper_arm_mass"/>
-    <origin xyz=" -0.041402 -0.0074168    0.1016   "/>
-  </joint>
-
-
-  <joint name="left/m3" type="fixed">
-    <parent link="left_elbow"/>
-    <child link="left_elbow_mass"/>
-    <origin xyz="0.033782  0.026162 0.0154432"/>
-  </joint>
-
-<joint name="left/m4" type="fixed">
-    <parent link="left_lower_arm"/>
-    <child link="left_lower_arm_mass"/>
-    <origin xyz="0.0003556 -0.00122682 0.17653 "/>
-</joint>
-
-
-<joint name="left/m5" type="fixed">
-    <parent link="left_wrist_pitch"/>
-    <child link="left_wrist_pitch_mass"/>
-    <origin xyz="-0.00092202 -0.004064   0.000000152908   "/>
-</joint>
-
-<joint name="left/m6" type="fixed">
-    <parent link="left_wrist_yaw"/>
-    <child link="left_wrist_yaw_mass"/>
-    <origin xyz="0.067564   -0.00090932 -0.0253746   "/>
-</joint>
-
--->
 
 </robot>

@@ -2,13 +2,27 @@
 <robot>
   
   <link name="world"/>
-  <link name="dummy">
+  
+  <joint name="${robot_name}fixed/world/robot_world" type="fixed">
+    <parent link="world"/>
+    <child link="${robot_name}robot_world"/>
+    <origin rpy="0.0 0 0" xyz="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="${robot_name}robot_world">
     <inertial>
       <mass value="1"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
     </inertial>
   </link>
-  <link name="baseplate">
+  
+  <joint name="${robot_name}fixed/robot_world/baseplate" type="fixed">
+    <parent link="${robot_name}robot_world"/>
+    <child link="${robot_name}baseplate"/>
+    <origin rpy="0.0 0 1.57" xyz="0.0 0.0 0.0"/>
+  </joint>
+  
+  <link name="${robot_name}baseplate">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Stanchion_Baseplate.dae"/> 
@@ -27,7 +41,13 @@
     </inertial>
   </link>
 
-  <link name="base">
+  <joint name="${robot_name}fixed/baseplate/stanchion" type="fixed">
+    <parent link="${robot_name}baseplate"/>
+    <child link="${robot_name}stanchion"/>
+    <origin rpy="0 0 3.14" xyz="0.0 0.0 .70"/>
+  </joint>
+  
+  <link name="${robot_name}stanchion">
     <visual>
       <geometry>
         <mesh filename="package://r2_description/meshes/Stanchion.dae"/> 
@@ -47,21 +67,12 @@
     </inertial>
   </link>
 
-  <joint name="world/dummy" type="fixed">
-    <parent link="world"/>
-    <child link="dummy"/>
-    <origin rpy="0.0 0 0" xyz="0.0 0.0 0.0"/>
+  <joint name="${robot_name}fixed/stanchion/robot_base" type="fixed">
+    <parent link="${robot_name}stanchion"/>
+    <child link="${robot_name}robot_base"/>
+   <origin rpy="0 3.14 3.14" xyz="0.0 0.0 0.02"/> 
   </joint>
 
-  <joint name="base/b0" type="fixed">
-    <parent link="dummy"/>
-    <child link="baseplate"/>
-    <origin rpy="0.0 0 1.57" xyz="0.0 0.0 0.0"/>
-  </joint>
-  <joint name="base/b1" type="fixed">
-    <parent link="baseplate"/>
-    <child link="base"/>
-    <origin rpy="0 0 3.14" xyz="0.0 0.0 .70"/>
-  </joint>
+  <non_visual_link name="${robot_name}robot_base"/>
 
 </robot>

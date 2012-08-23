@@ -165,7 +165,7 @@ def ParseTableScene() :
 leftCartReadyPose = PoseStamped()
 leftCartReadyPose.header.seq = 0
 leftCartReadyPose.header.stamp = 0
-leftCartReadyPose.header.frame_id = "/waist_center"
+leftCartReadyPose.header.frame_id = "r2/waist_center"
 leftCartReadyPose.pose.position.x = 0.27
 leftCartReadyPose.pose.position.y = -0.35
 leftCartReadyPose.pose.position.z = -.22
@@ -177,7 +177,7 @@ leftCartReadyPose.pose.orientation.w = 0.707
 rightCartReadyPose = PoseStamped()
 rightCartReadyPose.header.seq = 0
 rightCartReadyPose.header.stamp = 0
-rightCartReadyPose.header.frame_id = "/waist_center"
+rightCartReadyPose.header.frame_id = "r2/waist_center"
 rightCartReadyPose.pose.position.x = 0.27
 rightCartReadyPose.pose.position.y = 0.35
 rightCartReadyPose.pose.position.z = -.22
@@ -187,26 +187,26 @@ rightCartReadyPose.pose.orientation.z = 0
 rightCartReadyPose.pose.orientation.w = 0.707
 
 # joint states
-leftArmJointNames = ['left/j'+str(i) for i in range(7)] 
-leftThumbJointNames = ['left_thumb/j0'] + ['left_thumb/j'+str(i) for i in range(2,5)]
-leftIndexJointNames = ['left_index/j'+str(i) for i in range(3)]
-leftMiddleJointNames = ['left_middle/j'+str(i) for i in range(3)]
-leftRingJointNames = ['left_ring/j'+str(i) for i in range(1)]
-leftLittleJointNames = ['left_little/j'+str(i) for i in range(1)]
+leftArmJointNames = ['/r2/left_arm/joint'+str(i) for i in range(7)] 
+leftThumbJointNames = ['/r2/left_arm/hand/thumb/joint' +str(i) for i in range(4)]
+leftIndexJointNames = ['/r2/left_arm/hand/index/joint'+str(i) for i in range(3)]
+leftMiddleJointNames = ['/r2/left_arm/hand/middle/joint'+str(i) for i in range(3)]
+leftRingJointNames = ['/r2/left_arm/hand/ring/joint'+str(i) for i in range(1)]
+leftLittleJointNames = ['/r2/left_arm/hand/little/joint'+str(i) for i in range(1)]
 leftHandNames = leftThumbJointNames + leftIndexJointNames + leftMiddleJointNames + leftRingJointNames + leftLittleJointNames
 leftJointNames = leftArmJointNames + leftHandNames
 
-rightArmJointNames = ['right/j'+str(i) for i in range(7)] 
-rightThumbJointNames = ['right_thumb/j0'] + ['right_thumb/j'+str(i) for i in range(2,5)]
-rightIndexJointNames = ['right_index/j'+str(i) for i in range(3)]
-rightMiddleJointNames = ['right_middle/j'+str(i) for i in range(3)]
-rightRingJointNames = ['right_ring/j'+str(i) for i in range(1)]
-rightLittleJointNames = ['right_little/j'+str(i) for i in range(1)]
+rightArmJointNames = ['/r2/right_arm/joint'+str(i) for i in range(7)] 
+rightThumbJointNames = ['/r2/right_arm/hand/thumb/joint'+str(i) for i in range(4)]
+rightIndexJointNames = ['/r2/right_arm/hand/index/joint'+str(i) for i in range(3)]
+rightMiddleJointNames = ['/r2/right_arm/hand/middle/joint'+str(i) for i in range(3)]
+rightRingJointNames = ['/r2/right_arm/hand/ring/joint'+str(i) for i in range(1)]
+rightLittleJointNames = ['/r2/right_arm/hand/little/joint'+str(i) for i in range(1)]
 rightHandNames = rightThumbJointNames + rightIndexJointNames + rightMiddleJointNames + rightRingJointNames + rightLittleJointNames
 rightJointNames = rightArmJointNames + rightHandNames
 
-neckJointNames = ['neck/j0', 'neck/j1', 'neck/j2']
-waistJointNames = ['waist/j0']
+neckJointNames = ['/r2/neck/joint0', '/r2/neck/joint1', '/r2/neck/joint2']
+waistJointNames = ['/r2/waist/joint0']
 
 leftJointReadyPose = JointState()
 rightJointReadyPose = JointState()
@@ -215,7 +215,7 @@ waistJointReadyPose = JointState()
 
 leftJointReadyPose.header.seq = 0
 leftJointReadyPose.header.stamp = 0
-leftJointReadyPose.header.frame_id = "waist"
+leftJointReadyPose.header.frame_id = "r2/waist_center"
 leftJointReadyPose.name = leftJointNames
 leftJointReadyPose.position = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]+[0*TORAD]*12
 
@@ -343,7 +343,7 @@ def getJointCommand(jd, name, d) :
     j_ref = j_act + d
     jnt_cmd.header.seq = 0
     jnt_cmd.header.stamp = rospy.get_rostime()
-    jnt_cmd.header.frame_id = "robot_base"
+    jnt_cmd.header.frame_id = "r2/robot_base"
     jnt_cmd.name = [name]
     jnt_cmd.position = [j_ref]
     return jnt_cmd

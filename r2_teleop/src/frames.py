@@ -17,46 +17,46 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
 
-menu_frame_id     = ['left_palm', 'right_palm']
-control_marker_id = ['left_control_frame', 'right_control_frame']
-setpoint_marker_id = ['left_setpoint_frame', 'right_setpoint_frame']
-control_frame_id  = ['left_middle_base', 'right_middle_base']
+menu_frame_id     = ['/r2/left_palm', '/r2/right_palm']
+control_marker_id = ['/r2/left_control_frame', '/r2/right_control_frame']
+setpoint_marker_id = ['/r2/left_setpoint_frame', '/r2/right_setpoint_frame']
+control_frame_id  = ['/r2/left_middle_base', '/r2/right_middle_base']
 
-finger_frame_id = [ ['left_thumb_base', 
-                        'left_thumb_medial_prime', 
-                        'left_thumb_medial', 
-                        'left_thumb_distal',
-                        'left_index_base', 
-                        'left_index_proximal', 
-                        'left_index_medial', 
-                        'left_middle_base', 
-                        'left_middle_proximal', 
-                        'left_middle_medial', 
-                        'left_ring_proximal', 
-                        'left_little_proximal'], 
-                       ['right_thumb_base', 
-                        'right_thumb_medial_prime', 
-                        'right_thumb_medial', 
-                        'right_thumb_distal',
-                        'right_index_base', 
-                        'right_index_proximal', 
-                        'right_index_medial', 
-                        'right_middle_base', 
-                        'right_middle_proximal', 
-                        'right_middle_medial', 
-                        'right_ring_proximal', 
-                        'right_little_proximal']]
+finger_frame_id = [ ['/r2/left_thumb_base', 
+                        '/r2/left_thumb_medial_prime', 
+                        '/r2/left_thumb_medial', 
+                        '/r2/left_thumb_distal',
+                        '/r2/left_index_base', 
+                        '/r2/left_index_proximal', 
+                        '/r2/left_index_medial', 
+                        '/r2/left_middle_base', 
+                        '/r2/left_middle_proximal', 
+                        '/r2/left_middle_medial', 
+                        '/r2/left_ring_proximal', 
+                        '/r2/left_little_proximal'], 
+                       ['/r2/right_thumb_base', 
+                        '/r2/right_thumb_medial_prime', 
+                        '/r2/right_thumb_medial', 
+                        '/r2/right_thumb_distal',
+                        '/r2/right_index_base', 
+                        '/r2/right_index_proximal', 
+                        '/r2/right_index_medial', 
+                        '/r2/right_middle_base', 
+                        '/r2/right_middle_proximal', 
+                        '/r2/right_middle_medial', 
+                        '/r2/right_ring_proximal', 
+                        '/r2/right_little_proximal']]
                         
 
-waist_frame_id    = 'waist_center'
-backpack_frame_id = 'backpack'
+waist_frame_id    = '/r2/waist_center'
+backpack_frame_id = '/r2/backpack'
 
-neck_frame_id = ['neck_lower_pitch', 'neck_roll', 'neck_upper_pitch']
+neck_frame_id = ['/r2/neck_lower_pitch', '/r2/neck_roll', '/r2/neck_upper_pitch']
 head_frame_id = neck_frame_id[1]
 
-gaze_frame_id = 'gaze_control_link'
+gaze_frame_id = '/r2/gaze_control_link'
 
-posture_frame_id = ['left_shoulder_pitch', 'right_shoulder_pitch']
+posture_frame_id = ['/r2/left_shoulder_pitch', '/r2/right_shoulder_pitch']
 
-base_frame_id = "robot_base"
+base_frame_id = "/r2/robot_base"
 

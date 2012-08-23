@@ -583,27 +583,27 @@ def mouseUpdate( feedback ) :
         print "Moved right setpoint frame: ", setpoint_offset[1]
 
     elif feedback.marker_name == frames.waist_frame_id :
-        r2.waist_jnt_pub.publish(r2.getJointCommand(joint_data, 'waist/j0', feedback.pose.orientation.z))
+        r2.waist_jnt_pub.publish(r2.getJointCommand(joint_data, '/r2/waist/joint0', feedback.pose.orientation.z))
         resetMarker(feedback, feedback.marker_name)  
     
     elif feedback.marker_name == frames.neck_frame_id[0] :
-        r2.neck_jnt_pub.publish(r2.getJointCommand(joint_data, 'neck/j0', -feedback.pose.orientation.y))
+        r2.neck_jnt_pub.publish(r2.getJointCommand(joint_data, '/r2/neck/joint0', -feedback.pose.orientation.y))
         resetMarker(feedback, feedback.marker_name)  
 
     elif feedback.marker_name == frames.neck_frame_id[1] :
-        r2.neck_jnt_pub.publish(r2.getJointCommand(joint_data, 'neck/j1', feedback.pose.orientation.y))
+        r2.neck_jnt_pub.publish(r2.getJointCommand(joint_data, '/r2/neck/joint1', feedback.pose.orientation.y))
         resetMarker(feedback, feedback.marker_name)  
 
     elif feedback.marker_name == frames.neck_frame_id[2] :
-        r2.neck_jnt_pub.publish(r2.getJointCommand(joint_data, 'neck/j2', feedback.pose.orientation.y))
+        r2.neck_jnt_pub.publish(r2.getJointCommand(joint_data, '/r2/neck/joint2', feedback.pose.orientation.y))
         resetMarker(feedback, feedback.marker_name)  
 
     elif feedback.marker_name == frames.posture_frame_id[0] :
-        r2.left_jnt_pub.publish(r2.getJointCommand(joint_data, 'left/j1', feedback.pose.orientation.z))
+        r2.left_jnt_pub.publish(r2.getJointCommand(joint_data, '/r2/left_arm/joint1', feedback.pose.orientation.z))
         resetMarker(feedback, feedback.marker_name)  
     
     elif feedback.marker_name == frames.posture_frame_id[1] :
-        r2.right_jnt_pub.publish(r2.getJointCommand(joint_data, 'right/j1', feedback.pose.orientation.z))
+        r2.right_jnt_pub.publish(r2.getJointCommand(joint_data, '/r2/right_arm/joint1', feedback.pose.orientation.z))
         resetMarker(feedback, feedback.marker_name)  
     
     for i in range(len(r2.leftHandNames)) :

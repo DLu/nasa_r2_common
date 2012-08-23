@@ -1,0 +1,9 @@
+bin/
+build/
+lib/
+*.cfgc
+*.pyc
+*~
+cfg/cpp/
+docs/
+src/r2_dynamic_reconfigure/cfg/
