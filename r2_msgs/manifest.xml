@@ -8,7 +8,12 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/r2_msgs</url>
-
+  
+  <depend package="std_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="geometry_msgs"/>
+  <rosdep name="protobuf-dev" />
+  
 </package>
 
 
