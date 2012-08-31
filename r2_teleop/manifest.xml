@@ -9,7 +9,8 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/r2_teleop</url>
 
-  <depend package="interactive_markers"/>
+  <depend package="interactive_markers"/>  
+<!--  <depend package="pr2_interactive_manipulation"/> -->
   <depend package="tf"/>
   <depend package="geometry_msgs"/>
   <depend package="sensor_msgs"/>

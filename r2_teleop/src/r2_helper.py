@@ -266,26 +266,26 @@ leftHandPowerClose = JointState()
 #leftHandPowerClose.header.stamp = 0
 leftHandPowerClose.header.frame_id = "world"
 leftHandPowerClose.name = leftHandNames
-leftHandPowerClose.position = [-100*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 170*TORAD, 170*TORAD]
+leftHandPowerClose.position = [-100*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 170*TORAD, 170*TORAD]
 
 rightHandPowerClose = JointState()
 #rightHandPowerClose.header.stamp = 0
 rightHandPowerClose.header.frame_id = "world"
 rightHandPowerClose.name = rightHandNames
-rightHandPowerClose.position = [100*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 150*TORAD, 150*TORAD]
+rightHandPowerClose.position = [100*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 150*TORAD, 150*TORAD]
 
 
 leftHandPowerCloseThumb = JointState()
 #leftHandPowerCloseThumb.header.stamp = 0
 leftHandPowerCloseThumb.header.frame_id = "world"
 leftHandPowerCloseThumb.name = leftHandNames
-leftHandPowerCloseThumb.position = [-200*TORAD, 100*TORAD, 100*TORAD, 50*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 170*TORAD, 170*TORAD]
+leftHandPowerCloseThumb.position = [-200*TORAD, 100*TORAD, 100*TORAD, 50*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 170*TORAD, 170*TORAD]
 
 rightHandPowerCloseThumb = JointState()
 #rightHandPowerCloseThumb.header.stamp = 0
 rightHandPowerCloseThumb.header.frame_id = "world"
 rightHandPowerCloseThumb.name = rightHandNames
-rightHandPowerCloseThumb.position = [200*TORAD, 100*TORAD, 100*TORAD, 50*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 150*TORAD, 150*TORAD]
+rightHandPowerCloseThumb.position = [200*TORAD, 100*TORAD, 100*TORAD, 50*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 0*TORAD, 100*TORAD, 70*TORAD, 150*TORAD, 150*TORAD]
 
 
 

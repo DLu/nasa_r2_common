@@ -8,13 +8,16 @@
   <property name="neck_j2_damping" value= "10.0" />
   <property name="neck_j2_friction" value= "0.0" />
 
+  <property name="effort_limit" value= "10000.0" />
+  <property name="velocity_limit" value= "1000.0" />
+
   <joint name="${robot_name}neck/joint0" type="revolute">
     <parent link="${robot_name}waist_center"/>
     <child link="${robot_name}neck_base"/>
     <origin rpy=" -1.570796 -0.0 0.0 " xyz=" 0.08636 0.0 -0.6142228 "/>
     <dynamics damping="${neck_j0_damping}" friction="${neck_j0_friction}"/>
     <axis xyz="0 0 1"/>
-    <limit effort="100000.0" lower="-0.7" upper="0.175" velocity="1000"/>
+    <limit effort="${effort_limit}" lower="-0.7" upper="0.175" velocity="${velocity_limit}"/>
   </joint>
   
   <link name="${robot_name}neck_base">
@@ -42,7 +45,7 @@
     <origin rpy=" -1.570796 -0.0 0.0 " xyz=" -0.0762 -0.0 0.0 "/>
     <dynamics damping="${neck_j1_damping}" friction="${neck_j1_friction}"/>
     <axis xyz="0 0 1"/>
-    <limit effort="100000.0" lower="-1.22" upper="1.22" velocity="1000"/>
+    <limit effort="${effort_limit}" lower="-1.22" upper="1.22" velocity="${velocity_limit}"/>
   </joint>
 
   <link name="${robot_name}neck_lower_pitch">
@@ -70,7 +73,7 @@
     <origin rpy=" 1.570796 -0.0 0.0 " xyz=" 0.0508 0.0 0.1777619 "/>
     <dynamics damping="${neck_j2_damping}" friction="${neck_j2_friction}"/>
     <axis xyz="0 0 1"/>
-    <limit effort="100000.0" lower="-0.7" upper="0.175" velocity="1000"/>
+    <limit effort="${effort_limit}" lower="-0.7" upper="0.175" velocity="${velocity_limit}"/>
   </joint>
 
   <link name="${robot_name}neck_roll">

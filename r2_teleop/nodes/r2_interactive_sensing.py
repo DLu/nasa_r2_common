@@ -207,7 +207,15 @@ def reachToObject(idx) :
 	rospy.sleep(4.0)
 
 	# do grasp approach
-	graspPose = copy.deepcopy(pose)
+	if approach == "top" :
+		graspPose = copy.deepcopy(pose)
+	else :
+		graspPose = copy.deepcopy(pose)
+		graspPose.pose.orientation.x = q[0]
+		graspPose.pose.orientation.y = q[1]
+		graspPose.pose.orientation.z = q[2]
+		graspPose.pose.orientation.w = q[3]
+	
 	graspPose.header.stamp = rospy.get_rostime()
 	
 	if approach == "top" :
