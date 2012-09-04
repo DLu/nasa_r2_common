@@ -8,3 +8,7 @@ lib/
 msg_gen/
 proto_gen/
 srv_gen/
+
+# unncessary files
+*.pyc
+*~
