@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 
-<robot name="r2c_full_body">
+  <robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       name="r2c_full_body" >
 
   <link name="world"/>
 
@@ -15,7 +19,7 @@
 
   <include filename="$(find r2_description)/robots/r2c_full_body_no_world.urdf.xacro" />
   <xacro:robot_base_origin>
-    <origin xyz="0 0 0" rpy="0 0 1.4" />
+    <origin xyz="0 0 1.4" rpy="0 0 0" />
   </xacro:robot_base_origin>
 
 
