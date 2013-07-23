@@ -5,13 +5,6 @@ find_package(catkin REQUIRED COMPONENTS dynamic_reconfigure)
 
 catkin_python_setup()
 
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES r2_dynamic_reconfigure
-  CATKIN_DEPENDS dynamic_reconfigure
-#  DEPENDS system_lib
-)
-
 generate_dynamic_reconfigure_options(
   cfg/accelerationLimit.cfg
   cfg/armCartJoint.cfg
@@ -32,6 +25,13 @@ generate_dynamic_reconfigure_options(
   cfg/tendonBoost.cfg
   cfg/trajGenSwitch.cfg
   cfg/velocityLimit.cfg
+)
+
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES r2_dynamic_reconfigure
+  CATKIN_DEPENDS dynamic_reconfigure
+#  DEPENDS system_lib
 )
 
 install(PROGRAMS
