@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   std_msgs
   visualization_msgs
+  message_generation
 )
 
 add_message_files(
@@ -44,7 +45,9 @@ generate_messages(
 
 catkin_package(
   CATKIN_DEPENDS
+  message_runtime
   geometry_msgs
   std_msgs
   visualization_msgs
+  message_generation
 )
