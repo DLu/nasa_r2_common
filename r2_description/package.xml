@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <name>r2_description</name>
+  <version>0.0.0</version>
+  <description>The r2_description package</description>
+  <maintainer email="paul@todo.todo">Paul Dinh</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/r2_description</url>
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
