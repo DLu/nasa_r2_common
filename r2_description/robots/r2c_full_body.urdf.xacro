@@ -17,7 +17,7 @@
     <origin rpy="0 0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
 
-  <include filename="$(find r2_description)/robots/r2c_full_body_no_world.urdf.xacro" />
+  <xacro:include filename="$(find r2_description)/robots/r2c_full_body_no_world.urdf.xacro" />
   <xacro:robot_base_origin>
     <origin xyz="0 0 1.4" rpy="0 0 0" />
   </xacro:robot_base_origin>
