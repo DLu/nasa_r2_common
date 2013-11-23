@@ -1,35 +1,45 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(r2_dynamic_reconfigure)
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(ROS_BUILD_TYPE RelWithDebInfo)
+find_package(catkin REQUIRED COMPONENTS dynamic_reconfigure)
 
-rosbuild_init()
+catkin_python_setup()
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+generate_dynamic_reconfigure_options(
+  cfg/accelerationLimit.cfg
+  cfg/armCartJoint.cfg
+  cfg/auxCtrl.cfg
+  cfg/cartDampingHigh.cfg
+  cfg/cartIntegratorGain.cfg
+  cfg/cartStiffnessHigh.cfg
+  cfg/fingerImpedanceSwitch.cfg
+  cfg/includeWaistJacobian.cfg
+  cfg/jointDampingHigh.cfg
+  cfg/jointDampingLow.cfg
+  cfg/jointStiffnessHigh.cfg
+  cfg/jointStiffnessLow.cfg
+  cfg/kTendon.cfg
+  cfg/kp.cfg
+  cfg/lowPriorityJointRef.cfg
+  cfg/taskNodes.cfg
+  cfg/tendonBoost.cfg
+  cfg/trajGenSwitch.cfg
+  cfg/velocityLimit.cfg
+)
 
-#uncomment if you have defined messages
-#rosbuild_genmsg()
-#uncomment if you have defined services
-#rosbuild_gensrv()
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES r2_dynamic_reconfigure
+  CATKIN_DEPENDS dynamic_reconfigure
+#  DEPENDS system_lib
+)
 
-# dynamic reconfigure
-rosbuild_find_ros_package(dynamic_reconfigure)
-include(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
-gencfg()
+install(PROGRAMS
+  nodes/fake_reconfigure_server.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-#rosbuild_add_executable(example examples/example.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+install(FILES
+  launch/fake_reconfigure_server.launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
