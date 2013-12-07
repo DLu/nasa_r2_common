@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<robot name="r2c_full_body" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+<robot name="r2c_full_body" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <property name="robot_name" value= "/r2/" />
 
