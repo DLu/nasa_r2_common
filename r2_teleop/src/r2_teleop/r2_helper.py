@@ -42,24 +42,68 @@ from interactive_markers.menu_handler import *
 
 TORAD = math.pi/180.0
 TODEG = 1.0/TORAD
-    
+
+def joint_state(frame, names, values):
+    js = JointState()
+    js.header.frame_id = frame
+    js.name = names
+    js.position = map(math.radians, values)
+    return js
+
+class Arm:
+    def __init__(self, side):
+        self.pose_pub = rospy.Publisher('r2_controller/%s/pose_command'%side,  PoseStamped)
+        self.jnt_pub = rospy.Publisher('r2_controller/%s_arm/joint_command'%side,  JointState)
+        
+        self.cartReadyPose = PoseStamped()
+        self.cartReadyPose.header.seq = 0
+        self.cartReadyPose.header.stamp = 0
+        self.cartReadyPose.header.frame_id = "r2/waist_center"
+        self.cartReadyPose.pose.position.x = 0.27
+        self.cartReadyPose.pose.position.y = -0.35
+        self.cartReadyPose.pose.position.z = -.22
+        if side == 'left':
+            self.cartReadyPose.pose.orientation.x = -0.707 
+        else:
+            self.cartReadyPose.pose.orientation.x = 0.707 
+        self.cartReadyPose.pose.orientation.y = 0
+        self.cartReadyPose.pose.orientation.z = 0
+        self.cartReadyPose.pose.orientation.w = 0.707
+
+
+        if side == 'left':
+            Side = 'Left'
+            self.jointReadyPose = joint_state("r2/waist_center", leftJointNames, [50.0, -80.0, -105.0, -140.0, 80.0, 0.0, 0.0]+[0.0]*12)
+            self.handClose = joint_state('world', leftHandNames, [-70, 50, 50, 0, 0, 90, 90, 0, 90, 80, 170, 170])
+            self.handOpen = joint_state('world', leftHandNames, [0.0]*12)
+        else:
+            Side = 'Right'
+            self.jointReadyPose = joint_state("world", rightJointNames, [-50.0, -80.0, 105.0, -140.0, -80.0, 0.0, 0.0]+[0.0]*12)
+            self.handClose = joint_state('world', rightHandNames, [70, 50, 50, 0, 0, 90, 90, 0, 90, 80, 170, 170])
+            self.handOpen = joint_state('world', rightHandNames, [0.0]*12)
+        self.palm_mesh = "package://r2_description/meshes/%s_Palm.dae"%Side
+        self.palm_mesh_pose = Pose()
+        
+        lq = kdl.Rotation.RPY(3.14, 0, 1.57).GetQuaternion()
+        self.palm_mesh_pose.position.x = 0.0
+        self.palm_mesh_pose.position.y = 0.0
+        self.palm_mesh_pose.position.z = 0.0
+        self.palm_mesh_pose.orientation.x = lq[0]
+        self.palm_mesh_pose.orientation.y = lq[1]
+        self.palm_mesh_pose.orientation.z = lq[2]
+        self.palm_mesh_pose.orientation.w = lq[3]
+
 # pose topics
-left_pose_pub  = rospy.Publisher('r2_controller/left/pose_command',  PoseStamped)
-right_pose_pub = rospy.Publisher('r2_controller/right/pose_command', PoseStamped)
 gaze_pose_pub  = rospy.Publisher('r2_controller/gaze/pose_command',  PoseStamped)
 
 # joint topics
-left_jnt_pub  = rospy.Publisher('r2_controller/left_arm/joint_command',  JointState)
-right_jnt_pub = rospy.Publisher('r2_controller/right_arm/joint_command', JointState)
 neck_jnt_pub  = rospy.Publisher('r2_controller/neck/joint_command',      JointState)
 waist_jnt_pub = rospy.Publisher('r2_controller/waist/joint_command',     JointState)
 
 # meshes
-left_palm_mesh = "package://r2_description/meshes/Left_Palm.dae"
 left_thumb_carp_mesh = "package://r2_description/meshes/Left_Thumb_Carp.dae"
 left_thumb_carp_mtcar = "package://r2_description/meshes/Left_Thumb_MtCar.dae"
 
-right_palm_mesh = "package://r2_description/meshes/Right_Palm.dae"
 right_thumb_carp_mesh = "package://r2_description/meshes/Left_Thumb_Carp.dae"
 right_thumb_carp_mtcar = "package://r2_description/meshes/Right_Thumb_MtCar.dae"
 
@@ -74,8 +118,6 @@ head_mesh = "package://r2_description/meshes/Head.dae"
 backpack_mesh = "package://r2_description/meshes/Backpack.dae"
 
 # mesh poses
-left_palm_mesh_pose = Pose()
-right_palm_mesh_pose = Pose()
 waist_mesh_pose = Pose()
 head_mesh_pose = Pose()
 backpack_mesh_pose = Pose()
@@ -87,8 +129,8 @@ def SetArmsToCartMode(left_frame, right_frame) :
 
 def SetArmToCartMode(arm, frame) :
 
-    rospy.wait_for_service('r2_controller/set_tip_name')
-    set_tip_name = rospy.ServiceProxy('r2_controller/set_tip_name', SetTipName)
+    rospy.wait_for_service('/r2/r2_controller/set_tip_name')
+    set_tip_name = rospy.ServiceProxy('/r2/r2_controller/set_tip_name', SetTipName)
     
     print "setting ", arm, " tip to: ", frame
     try:
@@ -99,8 +141,8 @@ def SetArmToCartMode(arm, frame) :
  
 def SetArmToJointMode(arm) :
 
-    rospy.wait_for_service('r2_controller/set_joint_mode')
-    set_joint_mode = rospy.ServiceProxy('r2_controller/set_joint_mode', SetJointMode)
+    rospy.wait_for_service('/r2/r2_controller/set_joint_mode')
+    set_joint_mode = rospy.ServiceProxy('/r2/r2_controller/set_joint_mode', SetJointMode)
     
     print "setting ", arm, " to joint mode"
     try:
@@ -111,8 +153,8 @@ def SetArmToJointMode(arm) :
 
 def SetPower(p) :
 
-    rospy.wait_for_service('r2_controller/power')
-    power = rospy.ServiceProxy('r2_controller/power', Power)
+    rospy.wait_for_service('/r2/r2_controller/power')
+    power = rospy.ServiceProxy('/r2/r2_controller/power', Power)
     
     print "setting motor power to: ", p
     try:
@@ -125,8 +167,8 @@ def SetPower(p) :
 
 def Servo(s, mode) :
 
-    rospy.wait_for_service('r2_controller/servo')
-    Servo = rospy.ServiceProxy('r2_controller/servo', Servo)
+    rospy.wait_for_service('/r2/r2_controller/servo')
+    Servo = rospy.ServiceProxy('/r2/r2_controller/servo', Servo)
     
     print "servoing: ", s, " in mode: ", m
     try:
@@ -161,31 +203,6 @@ def ParseTableScene() :
         print "Service call failed for parsing table scene %s"%e
 
 
-# poses
-leftCartReadyPose = PoseStamped()
-leftCartReadyPose.header.seq = 0
-leftCartReadyPose.header.stamp = 0
-leftCartReadyPose.header.frame_id = "r2/waist_center"
-leftCartReadyPose.pose.position.x = 0.27
-leftCartReadyPose.pose.position.y = -0.35
-leftCartReadyPose.pose.position.z = -.22
-leftCartReadyPose.pose.orientation.x = -0.707
-leftCartReadyPose.pose.orientation.y = 0
-leftCartReadyPose.pose.orientation.z = 0
-leftCartReadyPose.pose.orientation.w = 0.707
-
-rightCartReadyPose = PoseStamped()
-rightCartReadyPose.header.seq = 0
-rightCartReadyPose.header.stamp = 0
-rightCartReadyPose.header.frame_id = "r2/waist_center"
-rightCartReadyPose.pose.position.x = 0.27
-rightCartReadyPose.pose.position.y = 0.35
-rightCartReadyPose.pose.position.z = -.22
-rightCartReadyPose.pose.orientation.x = 0.707
-rightCartReadyPose.pose.orientation.y = 0
-rightCartReadyPose.pose.orientation.z = 0
-rightCartReadyPose.pose.orientation.w = 0.707
-
 # joint states
 leftArmJointNames = ['/r2/left_arm/joint'+str(i) for i in range(7)] 
 leftThumbJointNames = ['/r2/left_arm/hand/thumb/joint' +str(i) for i in range(4)]
@@ -208,22 +225,9 @@ rightJointNames = rightArmJointNames + rightHandNames
 neckJointNames = ['/r2/neck/joint0', '/r2/neck/joint1', '/r2/neck/joint2']
 waistJointNames = ['/r2/waist/joint0']
 
-leftJointReadyPose = JointState()
-rightJointReadyPose = JointState()
 neckJointReadyPose = JointState()
 waistJointReadyPose = JointState()
 
-leftJointReadyPose.header.seq = 0
-leftJointReadyPose.header.stamp = 0
-leftJointReadyPose.header.frame_id = "r2/waist_center"
-leftJointReadyPose.name = leftJointNames
-leftJointReadyPose.position = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]+[0*TORAD]*12
-
-rightJointReadyPose.header.seq = 0
-rightJointReadyPose.header.stamp = 0
-rightJointReadyPose.header.frame_id = "world"
-rightJointReadyPose.name = rightJointNames
-rightJointReadyPose.position = [-50.0*TORAD, -80.0*TORAD, 105.0*TORAD, -140.0*TORAD, -80.0*TORAD, 0.0*TORAD, 0.0*TORAD]+[0*TORAD]*12
    
 neckJointReadyPose.header.seq = 0
 neckJointReadyPose.header.stamp = 0
@@ -236,31 +240,6 @@ waistJointReadyPose.header.stamp = 0
 waistJointReadyPose.header.frame_id = "world"
 waistJointReadyPose.name = waistJointNames
 waistJointReadyPose.position = [180.0*TORAD]
-
-leftHandClose = JointState()
-leftHandClose.header.stamp = 0
-leftHandClose.header.frame_id = "world"
-leftHandClose.name = leftHandNames
-leftHandClose.position = [-70*TORAD, 50*TORAD, 50*TORAD, 0*TORAD, 0*TORAD, 90*TORAD, 90*TORAD, 0*TORAD, 90*TORAD, 80*TORAD, 170*TORAD, 170*TORAD]
-
-rightHandClose = JointState()
-rightHandClose.header.stamp = 0
-rightHandClose.header.frame_id = "world"
-rightHandClose.name = rightHandNames
-rightHandClose.position = [70*TORAD, 50*TORAD, 50*TORAD, 0*TORAD, 0*TORAD, 90*TORAD, 90*TORAD, 0*TORAD, 90*TORAD, 80*TORAD, 170*TORAD, 170*TORAD]
-
-leftHandOpen = JointState()
-leftHandOpen.header.stamp = 0
-leftHandOpen.header.frame_id = "world"
-leftHandOpen.name = leftHandNames
-leftHandOpen.position = [0*TORAD]*12
-
-rightHandOpen = JointState()
-rightHandOpen.header.stamp = 0
-rightHandOpen.header.frame_id = "world"
-rightHandOpen.name = rightHandNames
-rightHandOpen.position = [0*TORAD]*12
-
 
 leftHandPowerClose = JointState()
 #leftHandPowerClose.header.stamp = 0
@@ -290,25 +269,6 @@ rightHandPowerCloseThumb.position = [200*TORAD, 100*TORAD, 100*TORAD, 50*TORAD, 
 
 
 def SetUpMeshData() :
-
-    lq = kdl.Rotation.RPY(3.14, 0, 1.57).GetQuaternion()
-    left_palm_mesh_pose.position.x = 0.0
-    left_palm_mesh_pose.position.y = 0.0
-    left_palm_mesh_pose.position.z = 0.0
-    left_palm_mesh_pose.orientation.x = lq[0]
-    left_palm_mesh_pose.orientation.y = lq[1]
-    left_palm_mesh_pose.orientation.z = lq[2]
-    left_palm_mesh_pose.orientation.w = lq[3]
-
-    rq = kdl.Rotation.RPY(3.14, 0, 1.57).GetQuaternion()
-    right_palm_mesh_pose.position.x = 0.0
-    right_palm_mesh_pose.position.y = 0.0
-    right_palm_mesh_pose.position.z = 0.0
-    right_palm_mesh_pose.orientation.x = rq[0]
-    right_palm_mesh_pose.orientation.y = rq[1]
-    right_palm_mesh_pose.orientation.z = rq[2]
-    right_palm_mesh_pose.orientation.w = rq[3]
- 
     wq = kdl.Rotation.RPY(-1.57, 0, -1.57).GetQuaternion()
     waist_mesh_pose.position.x = 0.02
     waist_mesh_pose.position.y = 0.05
@@ -342,23 +302,10 @@ def getJointCommand(jd, name, d) :
     j_act = jd.position[jd.name.index(name)]
     j_ref = j_act + d
     jnt_cmd.header.seq = 0
-    jnt_cmd.header.stamp = rospy.get_rostime()
+    jnt_cmd.header.stamp = rospy.Time.now()
     jnt_cmd.header.frame_id = "r2/robot_base"
     jnt_cmd.name = [name]
     jnt_cmd.position = [j_ref]
     return jnt_cmd
 
-def makeLeftHandSetpointMarker ( msg ):
-    control =  InteractiveMarkerControl()
-    control.interaction_mode = InteractiveMarkerControl.MENU
-    control.markers.append( marker_helper.makeMesh(msg, left_palm_mesh, left_palm_mesh_pose, 1.1) )
-    msg.controls.append( control )
-    return control
-
-def makeRightHandSetpointMarker ( msg ):
-    control =  InteractiveMarkerControl()
-    control.interaction_mode = InteractiveMarkerControl.MENU
-    control.markers.append( marker_helper.makeMesh(msg, right_palm_mesh, right_palm_mesh_pose, 1.1) )
-    msg.controls.append( control )
-    return control
 
