@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>r2_description</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>The r2_description package</description>
   <maintainer email="paul@todo.todo">Paul Dinh</maintainer>
   <license>BSD</license>
