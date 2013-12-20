@@ -1,10 +1,13 @@
-control_marker_id = '/r2/%s_control_frame'
-control_frame_id  = '/r2/%s_middle_base'
-setpoint_marker_id = '/r2/%s_setpoint_frame'
-posture_frame_id = '/r2/%s_shoulder_pitch'
-menu_frame_id     = '/r2/%s_palm'
+from r2_teleop import *
+from r2_teleop.FingerControl import FingerControl
 
-class Arm:
+control_marker_id = 'r2/%s_control_frame'
+control_frame_id  = 'r2/%s_middle_base'
+setpoint_marker_id = 'r2/%s_setpoint_frame'
+posture_frame_id = 'r2/%s_shoulder_pitch'
+menu_frame_id     = 'r2/%s_palm'
+
+class ArmControl:
     def __init__(self, server, side):
         self.server = server
         self.side = side
@@ -21,7 +24,7 @@ class Arm:
         add_to_menu(self.menu, "Set Reach Point", self.handleArmMenu, True) 
         add_group_to_menu(self.menu, "Grasp Controls", ["Open Hand", "Close Hand"], self.handleArmMenu)
         add_to_menu(self.menu, "Reset Control Frame", self.handleArmMenu)
-
+        
         self.setpoint_menu = MenuHandler()
         add_to_menu(self.setpoint_menu, "Move to Point", self.handleSetpointMenu)
 
@@ -38,9 +41,12 @@ class Arm:
         self.ResetSetpointOffset()
         self.ResetToolOffset()
         self.arm_cart_marker = InteractiveMarker()
+        self.arm_cart_marker.header.frame_id = base_frame_id
+        self.arm_cart_marker.name = control_marker_id % self.side
+        self.arm_cart_marker.scale = 0.2
         self.makeArmControl()
 
-        self.finger_control = FingerControl(self.side)
+        self.finger_control = FingerControl(self.server, self.side)
         self.joint_names = get_joint_names('/r2/%s_arm/joint'%self.side, 7) + self.finger_control.joint_names
 
 
@@ -63,7 +69,7 @@ class Arm:
         if side == 'left':
             Side = 'Left'
             self.jointReadyPose = make_joint_state(self.joint_names, [50.0, -80.0, -105.0, -140.0, 80.0, 0.0, 0.0]+[0.0]*12)
-       else:
+        else:
             Side = 'Right'
             self.jointReadyPose = make_joint_state(self.joint_names, [-50.0, -80.0, 105.0, -140.0, -80.0, 0.0, 0.0]+[0.0]*12)
 
@@ -81,6 +87,7 @@ class Arm:
         self.makeArmMenu()
         self.posture_marker = InteractiveMarker()
         self.makePostureMarkers()
+        self.server.applyChanges()
 
     def SetArmToCartMode(self):
         rospy.wait_for_service('/r2/r2_controller/set_tip_name')
@@ -128,10 +135,10 @@ class Arm:
     def makeSetpointMarker(self):
         control = InteractiveMarkerControl()
         control.interaction_mode = InteractiveMarkerControl.MENU
-        control.markers.append( marker_helper.makeMesh(msg, self.palm_mesh, self.palm_mesh_pose, 1.1) )
+        control.markers.append( marker_helper.makeMesh(self.setpoint_marker, self.palm_mesh, self.palm_mesh_pose, 1.1) )
         self.setpoint_marker.controls.append( control )
 
-    def removeSetpointControl() :
+    def removeSetpointControl(self) :
         self.server.erase(self.setpoint_marker)
 
     def makeArmMenu(self):
@@ -151,11 +158,13 @@ class Arm:
 
 
     def handleArmMenu(self, feedback ) :
+        if feedback.event_type != InteractiveMarkerFeedback.MENU_SELECT:
+            return
         handle = feedback.menu_entry_id
 
         if(handle == 1) : # ready pose
             self.cartReadyPose.header.stamp = rospy.Time.now()
-            self.pose_pub.publish(self.CartReadyPose)
+            self.pose_pub.publish(self.cartReadyPose)
 
             self.jointReadyPose.header.stamp = rospy.Time.now()
             self.jnt_pub.publish(self.jointReadyPose) 
@@ -204,7 +213,7 @@ class Arm:
                 
         elif(handle == 6) :  # open hand
             print "open %s hand"%self.side
-            self.finger.open_pose.header.stamp rospy.Time.now()
+            self.finger.open_pose.header.stamp = rospy.Time.now()
             self.jnt_pub.publish(self.finger.open_pose) 
             self.server.resetMarker(control_marker_id % self.side)
         elif(handle == 7) : # close hand
@@ -220,6 +229,8 @@ class Arm:
         self.menu.reApply( self.server )
 
     def handleSetpointMenu(self, feedback ) :
+        if feedback.event_type != InteractiveMarkerFeedback.MENU_SELECT:
+            return
         pose = PoseStamped()
         handle = feedback.menu_entry_id
         now = rospy.Time(0)
@@ -269,7 +280,7 @@ class Arm:
             Fhtw = (pm.fromMsg(wTh)).Inverse()
             Fhtm = Fhtw*Fwtm
             self.tool_offset = pm.toMsg(Fhtm) 
-            print "Moved left tool frame: ", self.tool_offset
+            print "Moved %s tool frame: "%self.side, self.tool_offset
         else:
             pose = PoseStamped()
             pose.header.stamp = now
@@ -279,20 +290,21 @@ class Arm:
             self.server.tf_listener.waitForTransform(control_frame_id %self.side, base_frame_id, now, rospy.Duration(dur_time))
             ps = self.server.tf_listener.transformPose(base_frame_id, pose)
             Fp = pm.fromMsg(ps.pose)
-            Fo = pm.fromMsg(tool_offset[0])
+            Fo = pm.fromMsg(self.tool_offset)
             # apply offset (inverse) and send to robot   
             pose.pose = pm.toMsg(Fp * Fo.Inverse()) 
             self.pose_pub.publish(pose)
+            #print "Publish %s Pose"%self.side
         self.server.applyChanges()
 
 
     def handle_setpoint(self, feedback):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
             return
-        now = rospy.Time.now()
+        now = rospy.Time(0)
         if self.edit_setpoint:
             #tf_listener.waitForTransform(frames.control_frame_id[0], base_frame_id, now, rospy.Duration(dur_time))
-            (trans, rot) = tf_listener.lookupTransform(base_frame_id, control_frame_id % self.side, now)
+            (trans, rot) = self.server.tf_listener.lookupTransform(base_frame_id, control_frame_id % self.side, now)
             wTh = pm.toPose(trans, rot)
             Fwth = pm.fromMsg(wTh)
             wTs = feedback.pose
@@ -322,6 +334,9 @@ class Arm:
         self.server.tf_listener.waitForTransform( frame, base_frame_id, now, rospy.Duration(dur_time))
 
         (trans, rot) = self.server.tf_listener.lookupTransform(base_frame_id, frame, now)
+        pose = PoseStamped()
+        pose.header.stamp = rospy.Time(0)
+        pose.header.frame_id = base_frame_id
         pose.pose = pm.toPose(trans, rot) 
         
         # append tool offset to cart marker

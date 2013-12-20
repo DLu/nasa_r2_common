@@ -23,6 +23,8 @@ import rospy
 import tf
 from interactive_markers.interactive_marker_server import *
 from sensor_msgs.msg import JointState
+from r2_teleop import *
+from r2_teleop.ArmControl import ArmControl
 
 LR = ['left', 'right']
 
@@ -40,7 +42,7 @@ class R2InteractiveNode(InteractiveMarkerServer):
         self.js_sub = rospy.Subscriber("/joint_states", JointState, self.joint_state_cb)
             
     def erase(self, marker):
-        InteractiveMarkerServer.erase(marker.name)
+        InteractiveMarkerServer.erase(self, marker.name)
         marker.controls = []
         
     def resetMarker( self, frame_id ):    
@@ -49,7 +51,7 @@ class R2InteractiveNode(InteractiveMarkerServer):
         self.setPose( frame_id, pose )
         self.applyChanges()
 
-    def joint_state_cb(data) :
+    def joint_state_cb(self, data) :
         self.joint_data = data
 
     def get_joint_command(self, name, d):
@@ -78,9 +80,10 @@ class R2InteractiveNode(InteractiveMarkerServer):
         
     def slowUpdate(self) :
         now = rospy.Time.now()
-        self.gaze.slow_update()
+        if self.gaze:
+            self.gaze.slow_update()
         for arm in self.arms:
-            arm.update()
+            arm.slow_update()
         
     def fastUpdate(self) :
         pose = PoseStamped()
@@ -89,11 +92,12 @@ class R2InteractiveNode(InteractiveMarkerServer):
         pose.header.frame_id = base_frame_id
 
         now = rospy.Time(0)
-        self.gaze.fast_update()
+        if self.gaze:
+            self.gaze.fast_update()
 
         for arm in self.arms:
-            self.fast_update(self)
-        self.server.applyChanges()   
+            arm.fast_update()
+        self.applyChanges()   
 
 if __name__=="__main__":
     rospy.init_node("r2_interactive_control")    
