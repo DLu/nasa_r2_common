@@ -147,5 +147,7 @@ def makeZRotControl () :
     control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
     return control
 
-
+def sixAxis():
+    return [makeXTransControl(), makeYTransControl(), makeZTransControl(),
+            makeXRotControl(), makeYRotControl(), makeZRotControl()]
 
