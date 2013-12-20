@@ -7,6 +7,9 @@ setpoint_marker_id = 'r2/%s_setpoint_frame'
 posture_frame_id = 'r2/%s_shoulder_pitch'
 menu_frame_id     = 'r2/%s_palm'
 
+def get_arm_control_frame(side):
+    return control_frame_id % side
+
 class ArmControl:
     def __init__(self, server, side):
         self.server = server

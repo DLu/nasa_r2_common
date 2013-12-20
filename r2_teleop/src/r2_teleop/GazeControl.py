@@ -1,9 +1,12 @@
+from r2_teleop import *
+from r2_teleop.ArmControl import get_arm_control_frame
 import copy
 
 gaze_frame_id = '/r2/gaze_control_link'
 
 class GazeControl:
-    def __init__(self):
+    def __init__(self, server):
+        self.server = server
         self.marker = InteractiveMarker()
 
         self.marker.header.frame_id = base_frame_id
@@ -32,7 +35,7 @@ class GazeControl:
             pose.header.frame_id = base_frame_id
             pose.pose = feedback.pose
             self.pose_pub.publish(pose)
-            self.menu.reApply( server ) 
+            self.menu.reApply( self.server ) 
         
         elif(handle == 3) :
             state = self.menu.getCheckState( handle )
@@ -69,6 +72,7 @@ class GazeControl:
                 self.point_tracking_mode = False
                 self.left_tracking_mode = True
                 self.right_tracking_mode = False
+                self.control_mode = False #PROBABLY
                 self.removeGazeControl()
             self.menu.reApply( self.server )
 
@@ -88,6 +92,7 @@ class GazeControl:
                 self.point_tracking_mode = False
                 self.left_tracking_mode = False
                 self.right_tracking_mode = True
+                self.control_mode = False #PROBABLY
                 self.removeGazeControl()
             self.menu.reApply( self.server )
 
@@ -122,11 +127,11 @@ class GazeControl:
         control.markers.append( marker )
         self.marker.controls.append(control)
 
-        self.server.insert(self.marker, self.handleFeedback)
+        self.server.insert(self.marker, self.handle_feedback)
         self.menu.apply( self.server, self.marker.name )
 
 
-    def removeGazeControl() :
+    def removeGazeControl(self) :
         self.server.erase(self.marker)
 
     def handle_feedback(self, feedback):
@@ -143,7 +148,7 @@ class GazeControl:
             pose.header.stamp = rospy.Time.now()
             pose.header.frame_id = base_frame_id
             pose.pose = feedback.pose
-            r2.gaze_pose_pub.publish(pose)
+            self.pose_pub.publish(pose)
         self.server.applyChanges()
 
 
@@ -151,26 +156,25 @@ class GazeControl:
     def slow_update(self):
         now = rospy.Time.now()
         if self.left_tracking_mode:
-            self.server.tf_listener.waitForTransform(frames.control_frame_id[0], base_frame_id, now, rospy.Duration(5.0))
+            self.server.tf_listener.waitForTransform(get_arm_control_frame('left'), base_frame_id, now, rospy.Duration(5.0))
         elif self.right_tracking_mode:
-            self.server.tf_listener.waitForTransform(frames.control_frame_id[1], base_frame_id, now, rospy.Duration(5.0))
+            self.server.tf_listener.waitForTransform(get_arm_control_frame('right'), base_frame_id, now, rospy.Duration(5.0))
 
-    def fastUpdate(self) :
+    def fast_update(self) :
         pose = PoseStamped()
         pose.header.stamp = rospy.Time(0)
         pose.header.frame_id = base_frame_id
 
         now = rospy.Time(0)
-        if self.left_tracking_mode:
-            self.server.tf_listener.waitForTransform(frames.control_frame_id[0], base_frame_id, now, rospy.Duration(dur_time))
-            (trans, rot) = self.server.tf_listener.lookupTransform(base_frame_id, frames.control_frame_id[0], now)
+        if self.left_tracking_mode or self.right_tracking_mode:
+            if self.left_tracking_mode:
+                frame = get_arm_control_frame('left')
+            else:
+                frame = get_arm_control_frame('right')
+            self.server.tf_listener.waitForTransform(frame, base_frame_id, now, rospy.Duration(dur_time))
+            (trans, rot) = self.server.tf_listener.lookupTransform(base_frame_id, frame, now)
             pose.pose = pm.toPose(trans, rot) 
             self.pose_pub.publish(pose)
+        
 
-        elif self.gaze.right_tracking_mode:
-            self.server.tf_listener.waitForTransform(frames.control_frame_id[1],base_frame_id, now, rospy.Duration(dur_time))
-            (trans, rot) = self.tf_listener.lookupTransform(base_frame_id, frames.control_frame_id[1], now)
-            pose.pose = pm.toPose(trans, rot) 
-            self.pose_pub.publish(pose)
-
-
+        

@@ -1,9 +1,12 @@
+from r2_teleop import *
+
 head_mesh = "package://r2_description/meshes/Head.dae"
-neckJointNames = ['/r2/neck/joint0', '/r2/neck/joint1', '/r2/neck/joint2']
-neck_frame_id = ['/r2/neck_lower_pitch', '/r2/neck_roll', '/r2/neck_upper_pitch']
+neckJointNames = ['r2/neck/joint0', 'r2/neck/joint1', 'r2/neck/joint2']
+neck_frame_id = ['r2/neck_lower_pitch', 'r2/neck_roll', 'r2/neck_upper_pitch']
 
 class HeadControl:
-    def __init__(self):
+    def __init__(self, server):
+        self.server = server
         self.mesh_pose = Pose()
         hq = get_quaternion(0, 1.57, 0)
         self.mesh_pose.position.x = 0.0
@@ -14,7 +17,7 @@ class HeadControl:
         self.mesh_pose.orientation.z = hq[2]
         self.mesh_pose.orientation.w = hq[3]
 
-        self.JointReadyPose = make_joint_state(neckJointNames, [0.0, 0.0, -5.0]
+        self.JointReadyPose = make_joint_state(neckJointNames, [0.0, 0.0, -5.0])
 
         self.markers = []
         for frame in neck_frame_id:
@@ -42,7 +45,7 @@ class HeadControl:
             self.server.insert(marker, self.handle_feedback)
 
     def removeHeadControl(self) :
-#        self.markers[1].controls = []
+#        self.markers[1].controls = [] TODO?
         for marker in self.markers:
             self.server.erase(marker)
         self.makeHeadMenu()
@@ -64,6 +67,8 @@ class HeadControl:
 
 
     def handleHeadMenu( self, feedback ) :
+        if feedback.event_type != InteractiveMarkerFeedback.MENU_SELECT:
+            return
         handle = feedback.menu_entry_id
         if(handle == 1) :
             self.JointReadyPose.header.stamp = rospy.Time.now()
@@ -81,7 +86,7 @@ class HeadControl:
                 self.makeHeadControl()
             self.menu.reApply( self.server ) 
         elif(feedback.menu_entry_id == 3) :
-            toggleGazeControl() #TODO Gaze 
+            self.server.gaze.toggleGazeControl()
         elif(feedback.menu_entry_id == 4) :
             r2.SegmentTableTop() #TODO Segment
         self.server.applyChanges()

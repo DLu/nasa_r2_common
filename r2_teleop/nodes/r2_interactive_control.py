@@ -25,6 +25,9 @@ from interactive_markers.interactive_marker_server import *
 from sensor_msgs.msg import JointState
 from r2_teleop import *
 from r2_teleop.ArmControl import ArmControl
+from r2_teleop.TorsoControl import TorsoControl
+from r2_teleop.HeadControl import HeadControl
+from r2_teleop.GazeControl import GazeControl
 
 LR = ['left', 'right']
 
@@ -83,7 +86,8 @@ class R2InteractiveNode(InteractiveMarkerServer):
         if self.gaze:
             self.gaze.slow_update()
         for arm in self.arms:
-            arm.slow_update()
+            if arm:
+                arm.slow_update()
         
     def fastUpdate(self) :
         pose = PoseStamped()
@@ -96,7 +100,8 @@ class R2InteractiveNode(InteractiveMarkerServer):
             self.gaze.fast_update()
 
         for arm in self.arms:
-            arm.fast_update()
+            if arm:
+                arm.fast_update()
         self.applyChanges()   
 
 if __name__=="__main__":
