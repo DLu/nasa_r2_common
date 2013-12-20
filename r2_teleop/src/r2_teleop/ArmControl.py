@@ -36,6 +36,7 @@ class ArmControl:
         self.cart_marker.header.frame_id = base_frame_id
         self.cart_marker.name = control_marker_id%self.side
         self.cart_marker.scale = 0.2
+        self.makeArmControl()
 
         self.setpoint_marker = InteractiveMarker()
         self.setpoint_marker.header.frame_id = base_frame_id
@@ -44,11 +45,7 @@ class ArmControl:
 
         self.ResetSetpointOffset()
         self.ResetToolOffset()
-        self.arm_cart_marker = InteractiveMarker()
-        self.arm_cart_marker.header.frame_id = base_frame_id
-        self.arm_cart_marker.name = control_marker_id % self.side
-        self.arm_cart_marker.scale = 0.2
-        self.makeArmControl()
+
 
         self.finger_control = FingerControl(self.server, self.side)
         self.joint_names = get_joint_names('/r2/%s_arm/joint'%self.side, 7) + self.finger_control.joint_names
@@ -124,11 +121,13 @@ class ArmControl:
         self.setpoint_offset.orientation.w = 1
 
     def makeArmControl(self):
-        self.arm_cart_marker.controls += sixAxis()
-        self.server.insert(self.arm_cart_marker, self.handle_feedback)
+        self.cart_marker.controls += sixAxis()
+        self.cart_marker.pose.position.x = .5
+        self.cart_marker.pose.orientation.w = 1
+        self.server.insert(self.cart_marker, self.handle_feedback)
 
     def removeArmControl(self) :
-        self.server.erase(self.arm_cart_marker)
+        self.server.erase(self.cart_marker)
 
     def makeSetpointControl(self) :
         self.setpoint_marker.controls += sixAxis()
@@ -298,7 +297,7 @@ class ArmControl:
             # apply offset (inverse) and send to robot   
             pose.pose = pm.toMsg(Fp * Fo.Inverse()) 
             self.pose_pub.publish(pose)
-            #print "Publish %s Pose"%self.side
+            #print "Publish %s Pose"%self.side, pose
         self.server.applyChanges()
 
 
@@ -349,7 +348,7 @@ class ArmControl:
             Ft = pm.fromMsg(self.tool_offset)
             pose.pose = pm.toMsg(Fp*Ft) 
             pose.header.frame_id = base_frame_id  
-            self.server.setPose( frame, pose.pose )
+            self.server.setPose( self.cart_marker.name, pose.pose )
         # append setpoint offset to marker
         else :
             Fp = pm.fromMsg(pose.pose)
@@ -358,5 +357,6 @@ class ArmControl:
             pose.pose = pm.toMsg(Fp*Ft*Fs) 
             pose.header.frame_id = base_frame_id  
             self.server.setPose( self.setpoint_marker.name, pose.pose )
+        self.server.applyChanges()
 
 
