@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find r2_gazebo)/launch/main.launch">
+        <arg name="i_control" value="True"/>
+        <arg name="gui" value="False"/>
+    </include>
+    <include file="$(find r2_teleop)/launch/interactive.launch" />
+</launch>
