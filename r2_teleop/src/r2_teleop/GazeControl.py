@@ -24,7 +24,7 @@ class GazeControl:
         self.point_tracking_mode = False
         self.left_tracking_mode = False
         self.right_tracking_mode = False
-        self.pose_pub  = rospy.Publisher('r2_controller/gaze/pose_command',  PoseStamped)
+        self.pose_pub  = rospy.Publisher('/r2/r2_controller/gaze/pose_command',  PoseStamped)
 
     def handleGazeMenu(self, feedback ) :
         pose = PoseStamped()

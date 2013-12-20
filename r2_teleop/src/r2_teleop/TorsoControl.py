@@ -1,10 +1,11 @@
+from r2_msgs.srv import *
 from r2_teleop import *
 
 waist_frame_id    = 'r2/waist_center'
 backpack_frame_id = 'r2/backpack'
 body_mesh = "package://r2_description/meshes/Body_Cover.dae"
 backpack_mesh = "package://r2_description/meshes/Backpack.dae"
-waistJointNames = ['r2/waist/joint0']
+waistJointNames = ['/r2/waist/joint0']
 
 class TorsoControl:
     def __init__(self, server):
@@ -16,7 +17,7 @@ class TorsoControl:
         self.backpack_menu = MenuHandler()
         add_to_menu(self.backpack_menu, "Power", self.handleBackpackMenu, True)
 
-        self.jnt_pub = rospy.Publisher('r2_controller/waist/joint_command',     JointState)
+        self.jnt_pub = rospy.Publisher('/r2/r2_controller/waist/joint_command',     JointState)
 
         self.backpack_marker = InteractiveMarker()
         self.backpack_marker.header.frame_id = backpack_frame_id

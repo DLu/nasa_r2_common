@@ -42,7 +42,7 @@ class R2InteractiveNode(InteractiveMarkerServer):
         self.gaze = GazeControl(self)
         self.head = HeadControl(self)
         self.torso = TorsoControl(self)
-        self.js_sub = rospy.Subscriber("/joint_states", JointState, self.joint_state_cb)
+        self.js_sub = rospy.Subscriber("/r2/joint_states", JointState, self.joint_state_cb)
             
     def erase(self, marker):
         InteractiveMarkerServer.erase(self, marker.name)

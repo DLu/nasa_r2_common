@@ -1,3 +1,4 @@
+from r2_msgs.srv import *
 from r2_teleop import *
 from r2_teleop.FingerControl import FingerControl
 
@@ -53,8 +54,8 @@ class ArmControl:
         self.joint_names = get_joint_names('/r2/%s_arm/joint'%self.side, 7) + self.finger_control.joint_names
 
 
-        self.pose_pub = rospy.Publisher('r2_controller/%s/pose_command'%side,  PoseStamped)
-        self.jnt_pub = rospy.Publisher('r2_controller/%s_arm/joint_command'%side,  JointState)
+        self.pose_pub = rospy.Publisher('/r2/r2_controller/%s/pose_command'%side,  PoseStamped)
+        self.jnt_pub = rospy.Publisher('/r2/r2_controller/%s_arm/joint_command'%side,  JointState)
         
         self.cartReadyPose = PoseStamped()
         self.cartReadyPose.header.frame_id = "r2/waist_center"

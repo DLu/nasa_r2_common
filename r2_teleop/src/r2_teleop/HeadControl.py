@@ -1,7 +1,7 @@
 from r2_teleop import *
 
 head_mesh = "package://r2_description/meshes/Head.dae"
-neckJointNames = ['r2/neck/joint0', 'r2/neck/joint1', 'r2/neck/joint2']
+neckJointNames = ['/r2/neck/joint0', '/r2/neck/joint1', '/r2/neck/joint2']
 neck_frame_id = ['r2/neck_lower_pitch', 'r2/neck_roll', 'r2/neck_upper_pitch']
 
 class HeadControl:
@@ -28,13 +28,13 @@ class HeadControl:
             self.markers.append(marker)
 
 
-        self.jnt_pub  = rospy.Publisher('r2_controller/neck/joint_command',      JointState)
+        self.jnt_pub  = rospy.Publisher('/r2/r2_controller/neck/joint_command',      JointState)
 
         self.menu = MenuHandler()
         add_to_menu(self.menu, "Go To ReadyPose", self.handleHeadMenu)
         add_to_menu(self.menu, "Joint Control", self.handleHeadMenu, True)
         add_to_menu(self.menu, "Toggle Gaze Control", self.handleHeadMenu)
-        add_to_menu(self.menu, "Segment Table Top", self.handleHeadMenu)
+        # TODO add_to_menu(self.menu, "Segment Table Top", self.handleHeadMenu)
 
         self.makeHeadMenu()
 
