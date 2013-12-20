@@ -1,12 +1,15 @@
-waist_frame_id    = '/r2/waist_center'
-backpack_frame_id = '/r2/backpack'
+from r2_teleop import *
+
+waist_frame_id    = 'r2/waist_center'
+backpack_frame_id = 'r2/backpack'
 body_mesh = "package://r2_description/meshes/Body_Cover.dae"
 backpack_mesh = "package://r2_description/meshes/Backpack.dae"
-waistJointNames = ['/r2/waist/joint0']
+waistJointNames = ['r2/waist/joint0']
 
 class TorsoControl:
     def __init__(self, server):
         self.power_mode = False
+        self.server = server
         self.waist_menu = MenuHandler()
         add_to_menu(self.waist_menu, "Go To ReadyPose", self.handleWaistMenu)
 
@@ -16,8 +19,8 @@ class TorsoControl:
         self.jnt_pub = rospy.Publisher('r2_controller/waist/joint_command',     JointState)
 
         self.backpack_marker = InteractiveMarker()
-        self.backpack_marker.header.frame_id = frames.backpack_frame_id
-        self.backpack_marker.name = frames.backpack_frame_id
+        self.backpack_marker.header.frame_id = backpack_frame_id
+        self.backpack_marker.name = backpack_frame_id
         self.backpack_marker.scale = 0.4
 
         self.waistJointReadyPose = make_joint_state(waistJointNames, [180.0])
@@ -41,6 +44,9 @@ class TorsoControl:
         self.backpack_mesh_pose.orientation.y = bq[1]
         self.backpack_mesh_pose.orientation.z = bq[2]
         self.backpack_mesh_pose.orientation.w = bq[3]
+        
+        self.makeWaistMarker()
+        self.makeBackpackMenu()
 
         rospy.wait_for_service('/r2/r2_controller/power')
         self.power_srv = rospy.ServiceProxy('/r2/r2_controller/power', Power)
@@ -56,6 +62,8 @@ class TorsoControl:
         return resp1.status
 
     def handleWaistMenu( self, feedback ) :
+        if feedback.event_type != InteractiveMarkerFeedback.MENU_SELECT:
+            return
         if(feedback.menu_entry_id == 1) :
             self.waistJointReadyPose.header.stamp = rospy.Time.now()
             self.jnt_pub.publish(self.waistJointReadyPose)
@@ -63,6 +71,8 @@ class TorsoControl:
 
 
     def handleBackpackMenu( self, feedback ) :
+        if feedback.event_type != InteractiveMarkerFeedback.MENU_SELECT:
+            return
         handle = feedback.menu_entry_id
         if(feedback.menu_entry_id == 1) :
             state = self.backpack_menu.getCheckState( handle )
@@ -89,7 +99,7 @@ class TorsoControl:
 
         control = InteractiveMarkerControl()
         control.interaction_mode = InteractiveMarkerControl.MENU
-        marker = makeMesh( int_marker,  body_mesh, waist_mesh_pose, 1.02 )
+        marker = makeMesh( int_marker,  body_mesh, self.waist_mesh_pose, 1.02 )
         control.markers.append( marker )
         int_marker.controls.append(control)
 
@@ -98,15 +108,15 @@ class TorsoControl:
         self.server.applyChanges()
 
 
-    def makeBackpackMenu( ) :
+    def makeBackpackMenu(self ) :
 
         backpack_menu_control = InteractiveMarkerControl()
         backpack_menu_control.interaction_mode = InteractiveMarkerControl.MENU
-        marker = makeMesh( self.backpack_marker, r2.backpack_mesh, r2.backpack_mesh_pose, 1.02 )
+        marker = makeMesh( self.backpack_marker, backpack_mesh, self.backpack_mesh_pose, 1.02 )
         backpack_menu_control.markers.append( marker )
         self.backpack_marker.controls.append(backpack_menu_control)
         self.server.insert(self.backpack_marker, self.handleBackpackMenu)
-        backpack_menu_handler.apply( self.server, self.backpack_marker.name )
+        self.backpack_menu.apply( self.server, self.backpack_marker.name )
         self.server.applyChanges()
 
 
