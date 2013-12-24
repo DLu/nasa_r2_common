@@ -1,0 +1,4 @@
+<launch>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find r2_teleop)/interactive.rviz" respawn="true"/>
+    <node name="interactive" pkg="r2_teleop" type="r2_interactive_control.py" output="screen"/>
+</launch>
