@@ -93,7 +93,7 @@ class ArmControl:
     def SetArmToCartMode(self):
         rospy.wait_for_service('/r2/r2_controller/set_tip_name')
         set_tip_name = rospy.ServiceProxy('/r2/r2_controller/set_tip_name', SetTipName)
-        frame = control_frame_id % self.side
+        frame = '/' + control_frame_id % self.side
         print "setting ", self.side, " tip to: ", frame
         try:
             resp1 = set_tip_name(self.side, frame)
