@@ -287,8 +287,7 @@ class ArmControl:
         else:
             pose = PoseStamped()
             pose.header.stamp = now
-            pose.header.frame_id = control_frame_id%self.side;
-
+            pose.header.frame_id = feedback.header.frame_id
             pose.pose = feedback.pose
             self.server.tf_listener.waitForTransform(control_frame_id %self.side, base_frame_id, now, rospy.Duration(dur_time))
             ps = self.server.tf_listener.transformPose(base_frame_id, pose)
@@ -299,7 +298,7 @@ class ArmControl:
             self.pose_pub.publish(pose)
             #print "Publish %s Pose"%self.side, pose
         self.server.applyChanges()
-
+        
 
     def handle_setpoint(self, feedback):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
