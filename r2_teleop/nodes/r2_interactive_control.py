@@ -31,17 +31,22 @@ from r2_teleop.GazeControl import GazeControl
 
 LR = ['left', 'right']
 
+ARMS = True
+HEAD = False
+TORSO = False
+FAKE = False
+
 class R2InteractiveNode(InteractiveMarkerServer):
     def __init__(self):
         InteractiveMarkerServer.__init__(self, "r2_interactive_control")
         self.tf_listener = tf.TransformListener()
         self.arms = []
         for side in LR:
-            marker = ArmControl(self, side)
+            marker = ArmControl(self, side, FAKE)
             self.arms.append( marker )
-        self.gaze = GazeControl(self)
-        self.head = HeadControl(self)
-        self.torso = TorsoControl(self)
+        self.gaze = GazeControl(self) if HEAD else None
+        self.head = HeadControl(self) if HEAD else None
+        self.torso = TorsoControl(self, FAKE) if TORSO else None
         self.js_sub = rospy.Subscriber("/r2/joint_states", JointState, self.joint_state_cb)
             
     def erase(self, marker):

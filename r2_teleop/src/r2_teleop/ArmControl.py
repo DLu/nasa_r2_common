@@ -12,12 +12,13 @@ def get_arm_control_frame(side):
     return control_frame_id % side
 
 class ArmControl:
-    def __init__(self, server, side):
+    def __init__(self, server, side, fake=False):
         self.server = server
         self.side = side
         self.joint_mode = False
         self.edit_tool = False
         self.edit_setpoint = False
+        self.fake = fake
 
         self.SetArmToCartMode()
 
@@ -91,6 +92,9 @@ class ArmControl:
         self.server.applyChanges()
 
     def SetArmToCartMode(self):
+        if self.fake:
+            return
+
         rospy.wait_for_service('/r2/r2_controller/set_tip_name')
         set_tip_name = rospy.ServiceProxy('/r2/r2_controller/set_tip_name', SetTipName)
         frame = '/' + control_frame_id % self.side
@@ -102,6 +106,9 @@ class ArmControl:
             print "Service call failed for ", self.side, " arm: %s"%e
      
     def SetArmToJointMode(self):
+        if self.fake:
+            return
+
         rospy.wait_for_service('/r2/r2_controller/set_joint_mode')
         set_joint_mode = rospy.ServiceProxy('/r2/r2_controller/set_joint_mode', SetJointMode)
         

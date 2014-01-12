@@ -8,7 +8,7 @@ backpack_mesh = "package://r2_description/meshes/Backpack.dae"
 waistJointNames = ['/r2/waist/joint0']
 
 class TorsoControl:
-    def __init__(self, server):
+    def __init__(self, server, fake=False):
         self.power_mode = False
         self.server = server
         self.waist_menu = MenuHandler()
@@ -49,8 +49,9 @@ class TorsoControl:
         self.makeWaistMarker()
         self.makeBackpackMenu()
 
-        rospy.wait_for_service('/r2/r2_controller/power')
-        self.power_srv = rospy.ServiceProxy('/r2/r2_controller/power', Power)
+        if not fake:
+            rospy.wait_for_service('/r2/r2_controller/power')
+            self.power_srv = rospy.ServiceProxy('/r2/r2_controller/power', Power)
 
     def SetPower(self, p) :
         print "setting motor power to: ", p
