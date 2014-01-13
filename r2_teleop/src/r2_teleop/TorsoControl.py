@@ -8,7 +8,7 @@ backpack_mesh = "package://r2_description/meshes/Backpack.dae"
 waistJointNames = ['/r2/waist/joint0']
 
 class TorsoControl:
-    def __init__(self, server):
+    def __init__(self, server, fake=False):
         self.power_mode = False
         self.server = server
         self.waist_menu = MenuHandler()
@@ -49,8 +49,9 @@ class TorsoControl:
         self.makeWaistMarker()
         self.makeBackpackMenu()
 
-        rospy.wait_for_service('/r2/r2_controller/power')
-        self.power_srv = rospy.ServiceProxy('/r2/r2_controller/power', Power)
+        if not fake:
+            rospy.wait_for_service('/r2/r2_controller/power')
+            self.power_srv = rospy.ServiceProxy('/r2/r2_controller/power', Power)
 
     def SetPower(self, p) :
         print "setting motor power to: ", p
@@ -125,7 +126,11 @@ class TorsoControl:
     def handle_feedback(self, feedback):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
             return
-        self.jnt_pub.publish( self.server.get_joint_command('/r2/waist/joint0', feedback.pose.orientation.z) )
+
+        quat = feedback.pose.orientation.x, feedback.pose.orientation.y, feedback.pose.orientation.z, feedback.pose.orientation.w
+        rpy = euler_from_quaternion(quat)
+
+        self.jnt_pub.publish( self.server.get_joint_command('/r2/waist/joint0', rpy[2]) )
         self.server.resetMarker(feedback.marker_name)
         self.server.applyChanges()
 

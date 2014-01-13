@@ -305,6 +305,7 @@
     <axis xyz="0 0 1"/>
     <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
     <dynamics damping="${left_arm_hand_index_j3_damping}" friction="${left_arm_hand_index_j3_friction}"/>
+    <mimic joint="${robot_name}left_arm/hand/index/joint2"/>
   </joint>
 
   <link name="${robot_name}left_index_distal">
@@ -417,6 +418,7 @@
     <axis xyz="0 0 1"/>
     <limit effort="10000000.0" lower="0.0" upper="1.57" velocity="1000"/>
     <dynamics damping="${left_arm_hand_middle_j3_damping}" friction="${left_arm_hand_middle_j3_friction}"/>
+    <mimic joint="${robot_name}left_arm/hand/middle/joint2"/>
   </joint>
 
   <link name="${robot_name}left_middle_distal">
@@ -477,6 +479,7 @@
     <axis xyz="0 0 1"/>
     <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
     <dynamics damping="${left_arm_hand_ring_j1_damping}" friction="${left_arm_hand_ring_j1_friction}"/>
+    <mimic joint="${robot_name}left_arm/hand/ring/joint0"/>
   </joint>
 
   <link name="${robot_name}left_ring_medial">
@@ -505,6 +508,7 @@
     <axis xyz="0 0 1"/>	
     <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
     <dynamics damping="${left_arm_hand_ring_j2_damping}" friction="${left_arm_hand_ring_j2_friction}"/>
+    <mimic joint="${robot_name}left_arm/hand/ring/joint0"/>
   </joint>
 
   <link name="${robot_name}left_ring_distal">
@@ -565,6 +569,7 @@
     <axis xyz="0 0 1"/>
     <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
     <dynamics damping="${left_arm_hand_little_j1_damping}" friction="${left_arm_hand_little_j1_friction}"/>
+    <mimic joint="${robot_name}left_arm/hand/little/joint0"/>
   </joint>
 
   <link name="${robot_name}left_little_medial">
@@ -593,6 +598,7 @@
     <axis xyz="0 0 1"/>
     <limit effort="10000000.0" lower="0" upper="2.9671" velocity="1000"/>
     <dynamics damping="${left_arm_hand_little_j2_damping}" friction="${left_arm_hand_little_j2_friction}"/>
+    <mimic joint="${robot_name}left_arm/hand/little/joint0"/>
   </joint>
 
   <link name="${robot_name}left_little_distal">

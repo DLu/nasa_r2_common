@@ -9,7 +9,7 @@ FINGER_NAMES = ['thumb_base', 'thumb_medial_prime', 'thumb_medial', 'thumb_dista
 finger_frame_id = 'r2/%s_%s'
 
 
-JOINT_PATTERN = 'r2/%%s_arm/hand/%s/joint' 
+JOINT_PATTERN = '/r2/%%s_arm/hand/%s/joint' 
 FINGER_DATA = [(JOINT_PATTERN%'thumb', 4),
                (JOINT_PATTERN%'index', 3),
                (JOINT_PATTERN%'middle', 3),
@@ -59,7 +59,7 @@ class FingerControl:
              self.close = make_joint_state(self.joint_names, [100, 0, 0, 0, 0, 100, 70, 0, 100, 70, 150, 150])
              self.close_thumb = make_joint_state(self.joint_names, [200, 100, 100, 50, 0, 100, 70, 0, 100, 70, 150, 150])
 
-        #TODO OPEN POSE, CLOSED POSE
+        self.open = make_joint_state(self.joint_names, [0]*12)
 
     def processFeedback(self):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
