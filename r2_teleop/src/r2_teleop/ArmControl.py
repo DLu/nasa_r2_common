@@ -227,13 +227,13 @@ class ArmControl:
                 
         elif(handle == 6) :  # open hand
             print "open %s hand"%self.side
-            self.finger.open_pose.header.stamp = rospy.Time.now()
-            self.jnt_pub.publish(self.finger.open_pose) 
+            self.finger_control.open.header.stamp = rospy.Time.now()
+            self.jnt_pub.publish(self.finger_control.open) 
             self.server.resetMarker(control_marker_id % self.side)
         elif(handle == 7) : # close hand
             print "close left hand"
-            self.finger.close_pose.header.stamp = rospy.Time.now()
-            self.jnt_pub.publish(self.finger.close_pose) 
+            self.finger_control.close.header.stamp = rospy.Time.now()
+            self.jnt_pub.publish(self.finger_control.close) 
             self.server.resetMarker(control_marker_id % self.side)
         elif(handle == 8) : # reset tool offset
             print "Reseting Left Tool Control Frame"
