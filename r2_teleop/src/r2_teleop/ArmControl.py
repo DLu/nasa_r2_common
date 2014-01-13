@@ -1,7 +1,6 @@
 from r2_msgs.srv import *
 from r2_teleop import *
 from r2_teleop.FingerControl import FingerControl
-from tf.transformations import euler_from_quaternion
 
 control_marker_id = 'r2/%s_control_frame'
 control_frame_id  = 'r2/%s_middle_base'

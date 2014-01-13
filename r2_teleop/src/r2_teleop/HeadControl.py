@@ -97,12 +97,15 @@ class HeadControl:
             return
 
         cmd = None
+        quat = feedback.pose.orientation.x, feedback.pose.orientation.y, feedback.pose.orientation.z, feedback.pose.orientation.w
+        rpy = euler_from_quaternion(quat)
+
         if feedback.marker_name == neck_frame_id[0]:
-            cmd = self.server.get_joint_command('/r2/neck/joint0', -feedback.pose.orientation.y)
+            cmd = self.server.get_joint_command('/r2/neck/joint0', -rpy[1])
         elif feedback.marker_name == neck_frame_id[1]:
-            cmd = self.server.get_joint_command('/r2/neck/joint1', feedback.pose.orientation.y)
+            cmd = self.server.get_joint_command('/r2/neck/joint1', rpy[1])
         elif feedback.marker_name == neck_frame_id[2]:
-            cmd = self.server.get_joint_command('/r2/neck/joint2', feedback.pose.orientation.y)
+            cmd = self.server.get_joint_command('/r2/neck/joint2', rpy[1])
 
         if cmd:
             self.jnt_pub.publish(cmd)

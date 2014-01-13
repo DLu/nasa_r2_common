@@ -126,7 +126,11 @@ class TorsoControl:
     def handle_feedback(self, feedback):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
             return
-        self.jnt_pub.publish( self.server.get_joint_command('/r2/waist/joint0', feedback.pose.orientation.z) )
+
+        quat = feedback.pose.orientation.x, feedback.pose.orientation.y, feedback.pose.orientation.z, feedback.pose.orientation.w
+        rpy = euler_from_quaternion(quat)
+
+        self.jnt_pub.publish( self.server.get_joint_command('/r2/waist/joint0', rpy[2]) )
         self.server.resetMarker(feedback.marker_name)
         self.server.applyChanges()
 

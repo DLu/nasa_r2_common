@@ -5,6 +5,7 @@ from geometry_msgs.msg import Pose, Point, Quaternion, PoseStamped, TransformSta
 import r2_teleop.kdl_posemath as pm
 from r2_teleop.marker_helper import *
 from sensor_msgs.msg import JointState
+from tf.transformations import euler_from_quaternion
 
 base_frame_id = "r2/robot_base"
 dur_time = 2.0

@@ -32,8 +32,8 @@ from r2_teleop.GazeControl import GazeControl
 LR = ['left', 'right']
 
 ARMS = True
-HEAD = False
-TORSO = False
+HEAD = True
+TORSO = True
 FAKE = False
 
 class R2InteractiveNode(InteractiveMarkerServer):
