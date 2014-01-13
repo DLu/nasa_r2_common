@@ -1,6 +1,7 @@
 from r2_msgs.srv import *
 from r2_teleop import *
 from r2_teleop.FingerControl import FingerControl
+from tf.transformations import euler_from_quaternion
 
 control_marker_id = 'r2/%s_control_frame'
 control_frame_id  = 'r2/%s_middle_base'
@@ -33,10 +34,6 @@ class ArmControl:
         self.setpoint_menu = MenuHandler()
         add_to_menu(self.setpoint_menu, "Move to Point", self.handleSetpointMenu)
 
-        self.cart_marker = InteractiveMarker()
-        self.cart_marker.header.frame_id = base_frame_id
-        self.cart_marker.name = control_marker_id%self.side
-        self.cart_marker.scale = 0.2
         self.makeArmControl()
 
         self.setpoint_marker = InteractiveMarker()
@@ -87,8 +84,7 @@ class ArmControl:
         self.palm_mesh_pose.orientation.w = lq[3]
 
         self.makeArmMenu()
-        self.posture_marker = InteractiveMarker()
-        self.makePostureMarkers()
+
         self.server.applyChanges()
 
     def SetArmToCartMode(self):
@@ -128,6 +124,12 @@ class ArmControl:
         self.setpoint_offset.orientation.w = 1
 
     def makeArmControl(self):
+    
+        self.cart_marker = InteractiveMarker()
+        self.cart_marker.header.frame_id = base_frame_id
+        self.cart_marker.name = control_marker_id%self.side
+        self.cart_marker.scale = 0.2
+
         self.cart_marker.controls += sixAxis()
         self.cart_marker.pose.position.x = .5
         self.cart_marker.pose.orientation.w = 1
@@ -187,12 +189,14 @@ class ArmControl:
                 self.SetArmToCartMode()
                 self.joint_mode = False
                 self.makeArmControl( )
+                self.erasePostureMarkers()
             else:
                 self.menu.setCheckState( handle, MenuHandler.CHECKED )
                 rospy.loginfo("Setting Joint Control Mode for %s Arm"%self.side)
                 self.SetArmToJointMode()
                 self.joint_mode = True
                 self.removeArmControl()
+                self.makePostureMarkers()
 
         elif(handle == 3) : # tool offset
             state = self.menu.getCheckState( handle )
@@ -270,11 +274,15 @@ class ArmControl:
 
 
     def makePostureMarkers(self):
+        self.posture_marker = InteractiveMarker()
         self.posture_marker.header.frame_id = posture_frame_id %self.side
         self.posture_marker.scale = 0.25
         self.posture_marker.name = posture_frame_id % self.side
         self.posture_marker.controls.append( makeYRotControl() )
-        self.server.insert(self.posture_marker, self.handle_posture_feedback) 
+        self.server.insert(self.posture_marker, self.handle_posture_feedback)
+        
+    def erasePostureMarkers(self):
+        self.server.erase(self.posture_marker)
 
     def handle_feedback(self, feedback):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
@@ -329,7 +337,10 @@ class ArmControl:
     def handle_posture_feedback(self, feedback):
         if feedback.event_type != InteractiveMarkerFeedback.MOUSE_UP:
             return
-        self.jnt_pub.publish( self.server.get_joint_command('/r2/%s_arm/joint1'%self.side, feedback.pose.orientation.z))
+        quat = feedback.pose.orientation.x, feedback.pose.orientation.y, feedback.pose.orientation.z, feedback.pose.orientation.w
+        rpy = euler_from_quaternion(quat)
+        jc = self.server.get_joint_command('/r2/%s_arm/joint1'%self.side, rpy[2])
+        self.jnt_pub.publish( jc )
         self.server.resetMarker(feedback.marker_name)
         self.server.applyChanges()
 
@@ -354,7 +365,8 @@ class ArmControl:
             Ft = pm.fromMsg(self.tool_offset)
             pose.pose = pm.toMsg(Fp*Ft) 
             pose.header.frame_id = base_frame_id  
-            self.server.setPose( self.cart_marker.name, pose.pose )
+            if not self.joint_mode:
+                self.server.setPose( self.cart_marker.name, pose.pose )
         # append setpoint offset to marker
         else :
             Fp = pm.fromMsg(pose.pose)
