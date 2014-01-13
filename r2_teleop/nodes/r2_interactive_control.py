@@ -95,11 +95,6 @@ class R2InteractiveNode(InteractiveMarkerServer):
                 arm.slow_update()
         
     def fastUpdate(self) :
-        pose = PoseStamped()
-        pose.header.seq = 0
-        pose.header.stamp = rospy.Time(0)
-        pose.header.frame_id = base_frame_id
-
         now = rospy.Time(0)
         if self.gaze:
             self.gaze.fast_update()
