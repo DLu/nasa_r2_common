@@ -29,6 +29,8 @@ class ArmControl:
         add_to_menu(self.menu, "Set Reach Point", self.handleArmMenu, True) 
         add_group_to_menu(self.menu, "Grasp Controls", ["Open Hand", "Close Hand"], self.handleArmMenu)
         add_to_menu(self.menu, "Reset Control Frame", self.handleArmMenu)
+        if side=='right':
+            add_to_menu(self.menu, "Hook 'em", self.handleArmMenu)
         
         self.setpoint_menu = MenuHandler()
         add_to_menu(self.setpoint_menu, "Move to Point", self.handleSetpointMenu)
@@ -70,6 +72,7 @@ class ArmControl:
         else:
             Side = 'Right'
             self.jointReadyPose = make_joint_state(self.joint_names, [-50.0, -80.0, 105.0, -140.0, -80.0, 0.0, 0.0]+[0.0]*12)
+            self.hornsPose = make_joint_state(self.joint_names, [0, 0, 2.78, -1.57, -1.69, .17, .10, 1.22, 1.40, .28, -.39, -.28, 0, 0, 0, 1.57, 1.57, 1.57, 0], convert_to_rad=False)
 
         self.palm_mesh = "package://r2_description/meshes/%s_Palm.dae"%Side
         self.palm_mesh_pose = Pose()
@@ -238,6 +241,12 @@ class ArmControl:
             print "Reseting Left Tool Control Frame"
             self.ResetToolOffset()
             self.server.resetMarker(control_marker_id % self.side)
+        elif(handle == 9):
+
+            self.hornsPose.header.stamp = rospy.Time.now()
+            self.jnt_pub.publish(self.hornsPose) 
+            
+            
         
         self.menu.reApply( self.server )
 
