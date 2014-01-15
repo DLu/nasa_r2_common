@@ -4,12 +4,13 @@ import rospy
 import tf
 from interactive_markers.interactive_marker_server import *
 from sensor_msgs.msg import JointState
+from r2_msgs.srv import *
 from r2_teleop import *
 from r2_teleop.HeadControl import neckJointNames
 from r2_teleop.FingerControl import get_hand_names
 
 
-fake = True
+fake = False
 
 class KeyboardTeleop:
 
@@ -34,7 +35,7 @@ class KeyboardTeleop:
 
         self.left_ready = make_joint_state(self.left_names, [50.0, -80.0, -105.0, -140.0, 80.0, 0.0, 0.0]+[0.0]*12)
         self.right_ready = make_joint_state(self.right_names, [-50.0, -80.0, 105.0, -140.0, -80.0, 0.0, 0.0]+[0.0]*12)
-        self.horns_pose = make_joint_state(self.right_names, [0.23, -0.92, 2.53, -2.29, -2.19, .11, 0, 1.22, 1.40, .28, -.39, -.28, 0, 0, 0, 1.57, 1.57, 1.57, 0], convert_to_rad=False)
+        self.horns_pose = make_joint_state(self.right_names, [0.23, -0.92, 2.53, -2.69, -2.19, .11, 0, 1.22, 1.40, .28, -.39, -.28, 0, 0, 0, 1.57, 1.57, 1.57, 0], convert_to_rad=False)
 
         self.lclose = make_joint_state(self.left_hand, [-100, 0, 0, 0, 0, 100, 70, 0, 100, 70, 170, 170])
         self.rclose = make_joint_state(self.right_hand, [100, 0, 0, 0, 0, 100, 70, 0, 100, 70, 150, 150])
