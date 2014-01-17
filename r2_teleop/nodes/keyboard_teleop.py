@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import roslib; roslib.load_manifest("r2_teleop")
 import rospy
 
