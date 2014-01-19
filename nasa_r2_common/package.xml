@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>nasa_r2_common</name>
+  <version>0.0.0</version>
+  <description>The nasa_r2_common package</description>
+
+  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>r2_description</build_depend>
+  <build_depend>r2_dynamic_reconfigure</build_depend>
+  <build_depend>r2_moveit_config</build_depend>
+  <build_depend>r2_msgs</build_depend>
+  <build_depend>r2_teleop</build_depend>
+  <run_depend>r2_description</run_depend>
+  <run_depend>r2_dynamic_reconfigure</run_depend>
+  <run_depend>r2_moveit_config</run_depend>
+  <run_depend>r2_msgs</run_depend>
+  <run_depend>r2_teleop</run_depend>
+
+</package>
