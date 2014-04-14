@@ -8,7 +8,7 @@ import random
 
 from control_msgs.msg import *
 from trajectory_msgs.msg import *
-from industrial_msgs.srv import *
+# from industrial_msgs.srv import *
 from sensor_msgs.msg import JointState
 from copy import copy, deepcopy
 
