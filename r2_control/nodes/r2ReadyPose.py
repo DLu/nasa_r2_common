@@ -63,10 +63,6 @@ class r2ReadyPose :
         return self.numJoints
 
     def jointStateCallback(self, data):
-        # if self.numJoints != len(data.position) or self.numJoints != len(data.name) :
-        #     rospy.logerr("r2ReadyPose::jointStateCallback() -- /joint_states has different number of joints!")
-        # else :
-        #     print "asfasfds", data
         self.currentState = data
 
     def computeTrajectory(self, desiredData, deadline):
@@ -79,7 +75,6 @@ class r2ReadyPose :
         rospy.loginfo("r2ReadyPose::computeTrajectory() -- finding necessary joints")
         desiredPositions = []
         currentPositions = []
-        # print desiredData
         for desIndex in range(len(desiredState.name)) :
             for curIndex in range(len(currentState.name)) :
                 if ( desiredState.name[desIndex] == currentState.name[curIndex] ) :
@@ -98,14 +93,11 @@ class r2ReadyPose :
 
             trajPoint.positions = list()
             for i in range(len(desiredPositions)) :
-                # simple linear progression, needs to be replaced with something better
-                #trajPoint.positions.append( currentPositions[i] + ( (desiredPositions[i] - currentPositions[i]) * ((j+1) / self.waypoints) ) )
                 trajPoint.positions.append( self.minJerk(currentPositions[i], desiredPositions[i], deadline, t) )
 
             jointTraj.points.append(trajPoint)
 
         rospy.loginfo("r2ReadyPose::moveToGoal() -- using tolerances")
-        # print jointTraj
 
         return jointTraj
 
@@ -116,10 +108,8 @@ class r2ReadyPose :
 
     def moveToGoal(self, jointGoal, deadline, useTolerances) :
 
-        #self.trajPublisher.publish(self.computeTrajectory(jointGoal, deadline))
         self.actionGoal.trajectory = self.computeTrajectory(jointGoal, deadline)
 
-        # print "srv:", self.cmdTrajectory(self.actionGoal.trajectory)
         offset = 0
 
         if useTolerances :
@@ -167,7 +157,6 @@ class r2ReadyPose :
 
         # send goal nad monitor response
         self.trajClient.send_goal(self.actionGoal)
-        # self.trajClient.wait_for_result(rospy.Duration.from_sec(4.0))
 
         rospy.loginfo("r2ReadyPose::moveToGoal() -- returned state: %s", str(self.trajClient.get_state()))
         rospy.loginfo("r2ReadyPose::moveToGoal() -- returned result: %s", str(self.trajClient.get_result()))
@@ -228,8 +217,7 @@ if __name__ == '__main__':
         lrp = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
         rrp = [-50.0*TORAD, -80.0*TORAD, 105.0*TORAD, -140.0*TORAD, -80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
         nrp = [-20.0*TORAD, 0.0*TORAD, -15.0*TORAD]
-        print "ready pose"
-
+        print "r2ReadyPose() -- moving to ready pose"
 
         jointGoalLeft = r2TrajectoryGeneratorLeft.formatJointStateMsg(lrp, 0)
         jointGoalRight = r2TrajectoryGeneratorRight.formatJointStateMsg(rrp, 0)
