@@ -14,7 +14,7 @@ from copy import copy, deepcopy
 TORAD = math.pi/180.0
 TODEG = 1.0/TORAD
 
-class R2TrajectoryGenerator :
+class r2ReadyPose :
 
     def __init__(self, N, wp, arm):
 
@@ -52,7 +52,7 @@ class R2TrajectoryGenerator :
             self.trajPublisher = rospy.Publisher('/r2/neck_controller/command', JointTrajectory)
             self.trajClient = actionlib.SimpleActionClient('r2/neck_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
         else :
-            rospy.logerr("R2TrajectoryGenerator::R2TrajectoryGenerator() -- unknown arm")
+            rospy.logerr("r2ReadyPose::r2ReadyPose() -- unknown arm")
 
         self.trajClient.wait_for_server()
 
@@ -64,7 +64,7 @@ class R2TrajectoryGenerator :
 
     def jointStateCallback(self, data):
         # if self.numJoints != len(data.position) or self.numJoints != len(data.name) :
-        #     rospy.logerr("R2TrajectoryGenerator::jointStateCallback() -- /joint_states has different number of joints!")
+        #     rospy.logerr("r2ReadyPose::jointStateCallback() -- /joint_states has different number of joints!")
         # else :
         #     print "asfasfds", data
         self.currentState = data
@@ -76,7 +76,7 @@ class R2TrajectoryGenerator :
         desiredState = copy(desiredData)
 
         # create simple lists of both current and desired positions, based on provided desired names
-        rospy.loginfo("R2TrajectoryGenerator::computeTrajectory() -- finding necessary joints")
+        rospy.loginfo("r2ReadyPose::computeTrajectory() -- finding necessary joints")
         desiredPositions = []
         currentPositions = []
         # print desiredData
@@ -86,7 +86,7 @@ class R2TrajectoryGenerator :
                     desiredPositions.append(desiredState.position[desIndex])
                     currentPositions.append(currentState.position[curIndex])
 
-        rospy.loginfo("R2TrajectoryGenerator::computeTrajectory() -- creating trajectory")
+        rospy.loginfo("r2ReadyPose::computeTrajectory() -- creating trajectory")
         jointTraj.joint_names = desiredState.name
         jointTraj.points = list()
 
@@ -104,7 +104,7 @@ class R2TrajectoryGenerator :
 
             jointTraj.points.append(trajPoint)
 
-        rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- using tolerances")
+        rospy.loginfo("r2ReadyPose::moveToGoal() -- using tolerances")
         # print jointTraj
 
         return jointTraj
@@ -123,7 +123,7 @@ class R2TrajectoryGenerator :
         offset = 0
 
         if useTolerances :
-            rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- using tolerances")
+            rospy.loginfo("r2ReadyPose::moveToGoal() -- using tolerances")
             self.actionGoal.path_tolerance = []
             self.actionGoal.goal_tolerance = []
 
@@ -161,7 +161,7 @@ class R2TrajectoryGenerator :
                     self.actionGoal.goal_tolerance.append(tol)
 
         else :
-            rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- not using tolerances")
+            rospy.loginfo("r2ReadyPose::moveToGoal() -- not using tolerances")
 
         self.actionGoal.goal_time_tolerance = rospy.Duration(10.0)
 
@@ -169,15 +169,15 @@ class R2TrajectoryGenerator :
         self.trajClient.send_goal(self.actionGoal)
         # self.trajClient.wait_for_result(rospy.Duration.from_sec(4.0))
 
-        rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- returned state: %s", str(self.trajClient.get_state()))
-        rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- returned result: %s", str(self.trajClient.get_result()))
+        rospy.loginfo("r2ReadyPose::moveToGoal() -- returned state: %s", str(self.trajClient.get_state()))
+        rospy.loginfo("r2ReadyPose::moveToGoal() -- returned result: %s", str(self.trajClient.get_result()))
 
         return
 
     def formatJointStateMsg(self, j, offset) :
 
         if not (len(j) == self.numJoints) :
-            rospy.logerr("R2TrajectoryGenerator::formatJointStateMsg() -- incorrectly sized joint message")
+            rospy.logerr("r2ReadyPose::formatJointStateMsg() -- incorrectly sized joint message")
             return None
 
         js = JointState()
@@ -213,11 +213,11 @@ class R2TrajectoryGenerator :
 if __name__ == '__main__':
     rospy.init_node('r2ReadyPose')
     try:
-        r2TrajectoryGeneratorLeft = R2TrajectoryGenerator(7, 500, "left")
-        r2TrajectoryGeneratorRight = R2TrajectoryGenerator(7, 500, "right")
-        r2TrajectoryGeneratorNeck = R2TrajectoryGenerator(3, 500, "neck")
-        r2TrajectoryGeneratorLeftHand = R2TrajectoryGenerator(15, 10, "left_hand")
-        r2TrajectoryGeneratorRightHand = R2TrajectoryGenerator(15, 10, "right_hand")
+        r2TrajectoryGeneratorLeft = r2ReadyPose(7, 500, "left")
+        r2TrajectoryGeneratorRight = r2ReadyPose(7, 500, "right")
+        r2TrajectoryGeneratorNeck = r2ReadyPose(3, 500, "neck")
+        r2TrajectoryGeneratorLeftHand = r2ReadyPose(15, 10, "left_hand")
+        r2TrajectoryGeneratorRightHand = r2ReadyPose(15, 10, "right_hand")
         rospy.sleep(2)
 
 
