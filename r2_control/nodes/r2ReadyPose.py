@@ -32,7 +32,7 @@ class r2ReadyPose :
 
         self.fingers = [("index",4),("middle",4),("ring",3),("little",3),("thumb",4)]
 
-        rospy.Subscriber("/r2/joint_states", JointState, self.jointStateCallback)
+        rospy.Subscriber("r2/joint_states", JointState, self.jointStateCallback)
 
 
 
@@ -120,7 +120,7 @@ class r2ReadyPose :
             if self.arm == "left_hand" :
                 for k in range(len(self.fingers)):
                     for j in range(self.fingers[k][1]):
-                        tol.name = "/r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
+                        tol.name = "r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
                         tol.position = 0.2
                         tol.velocity = 1
                         tol.acceleration = 10
@@ -129,7 +129,7 @@ class r2ReadyPose :
             elif self.arm == "right_hand" :
                 for k in range(len(self.fingers)):
                     for i in range(self.fingers[k][1]):
-                        tol.name = "/r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
+                        tol.name = "r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
                         print tol.name
                         tol.position = 0.2
                         tol.velocity = 1
@@ -140,9 +140,9 @@ class r2ReadyPose :
                 for i in range(self.numJoints):
                     tol = JointTolerance()
                     if self.arm == "left" or self.arm == "right" :
-                        tol.name = "/r2/" + self.arm + "_arm/joint" + str(i+offset)
+                        tol.name = "r2/" + self.arm + "_arm/joint" + str(i+offset)
                     elif self.arm == "neck" :
-                        tol.name = "/r2/" + self.arm + "/joint" + str(i+offset)
+                        tol.name = "r2/" + self.arm + "/joint" + str(i+offset)
                     tol.position = 0.2
                     tol.velocity = 1
                     tol.acceleration = 10
@@ -179,21 +179,21 @@ class r2ReadyPose :
 
         if self.arm == "left" or self.arm == "right" :
             for i in range(self.numJoints):
-                js.name.append("/r2/" + self.arm + "_arm/joint" + str(i+offset))
+                js.name.append("r2/" + self.arm + "_arm/joint" + str(i+offset))
                 js.position.append(j[i])
         if self.arm == "left_hand" :
             for k in range(len(self.fingers)):
                 for i in range(self.fingers[k][1]):
-                    js.name.append("/r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
+                    js.name.append("r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
                     js.position.append(j[i])
         if self.arm == "right_hand" :
             for k in range(len(self.fingers)):
                 for i in range(self.fingers[k][1]):
-                    js.name.append("/r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
+                    js.name.append("r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
                     js.position.append(j[i])
         elif self.arm == "neck" :
             for i in range(self.numJoints):
-                js.name.append("/r2/" + self.arm + "/joint" + str(i+offset))
+                js.name.append("r2/" + self.arm + "/joint" + str(i+offset))
                 js.position.append(j[i])
 
         return js
