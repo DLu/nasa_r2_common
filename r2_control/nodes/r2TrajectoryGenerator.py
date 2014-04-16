@@ -32,8 +32,11 @@ class R2TrajectoryGenerator :
 
         self.fingers = [("index",4),("middle",4),("ring",3),("little",3),("thumb",4)]
 
-        rospy.Subscriber("/r2/joint_states", JointState, self.jointStateCallback)
 
+
+    def connectToServers(self) :
+
+        rospy.Subscriber("/r2/joint_states", JointState, self.jointStateCallback)
 
 
         if self.arm=="left" :
@@ -218,6 +221,13 @@ if __name__ == '__main__':
         r2TrajectoryGeneratorNeck = R2TrajectoryGenerator(3, 500, "neck")
         r2TrajectoryGeneratorLeftHand = R2TrajectoryGenerator(15, 10, "left_hand")
         r2TrajectoryGeneratorRightHand = R2TrajectoryGenerator(15, 10, "right_hand")
+
+        r2TrajectoryGeneratorLeft.connectToServers()
+        r2TrajectoryGeneratorRight.connectToServers()
+        r2TrajectoryGeneratorNeck.connectToServers()
+        r2TrajectoryGeneratorLeftHand.connectToServers()
+        r2TrajectoryGeneratorRightHand.connectToServers()
+        
         rospy.sleep(2)
 
 
