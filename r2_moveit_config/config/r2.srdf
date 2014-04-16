@@ -9,67 +9,77 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="left_gripper">
-        <joint name="r2/left_arm/hand/index/joint0" />
-        <joint name="r2/left_arm/hand/index/joint1" />
-        <joint name="r2/left_arm/hand/index/joint2" />
-        <joint name="r2/left_arm/hand/index/joint3" />
-        <joint name="r2/left_arm/hand/middle/joint0" />
-        <joint name="r2/left_arm/hand/middle/joint1" />
-        <joint name="r2/left_arm/hand/middle/joint2" />
-        <joint name="r2/left_arm/hand/middle/joint3" />
-        <joint name="r2/left_arm/hand/little/joint0" />
-        <joint name="r2/left_arm/hand/little/joint1" />
-        <joint name="r2/left_arm/hand/little/joint2" />
-        <joint name="r2/left_arm/hand/ring/joint0" />
-        <joint name="r2/left_arm/hand/ring/joint1" />
-        <joint name="r2/left_arm/hand/ring/joint2" />
-        <joint name="r2/left_arm/hand/thumb/joint0" />
-        <joint name="r2/left_arm/hand/thumb/joint1" />
-        <joint name="r2/left_arm/hand/thumb/joint2" />
-        <joint name="r2/left_arm/hand/thumb/joint3" />
+    <group name="right_arm">
+        <chain base_link="r2/chest_center" tip_link="r2/right_palm" />
     </group>
-    <group name="right_gripper">
-        <joint name="r2/right_arm/hand/index/joint0" />
-        <joint name="r2/right_arm/hand/index/joint1" />
-        <joint name="r2/right_arm/hand/index/joint2" />
-        <joint name="r2/right_arm/hand/index/joint3" />
-        <joint name="r2/right_arm/hand/middle/joint0" />
-        <joint name="r2/right_arm/hand/middle/joint1" />
-        <joint name="r2/right_arm/hand/middle/joint2" />
-        <joint name="r2/right_arm/hand/middle/joint3" />
-        <joint name="r2/right_arm/hand/little/joint0" />
-        <joint name="r2/right_arm/hand/little/joint1" />
-        <joint name="r2/right_arm/hand/little/joint2" />
-        <joint name="r2/right_arm/hand/ring/joint0" />
-        <joint name="r2/right_arm/hand/ring/joint1" />
-        <joint name="r2/right_arm/hand/ring/joint2" />
-        <joint name="r2/right_arm/hand/thumb/joint0" />
-        <joint name="r2/right_arm/hand/thumb/joint1" />
-        <joint name="r2/right_arm/hand/thumb/joint2" />
-        <joint name="r2/right_arm/hand/thumb/joint3" />
+    <group name="right_hand">
+        <link name="r2/right_wrist_pitch" />
+        <link name="r2/right_wrist_yaw" />
+        <link name="r2/right_index_base" />
+        <link name="r2/right_index_yaw" />
+        <link name="r2/right_index_proximal" />
+        <link name="r2/right_index_medial" />
+        <link name="r2/right_index_distal" />
+        <link name="r2/right_index_tip" />
+        <link name="r2/right_middle_base" />
+        <link name="r2/right_middle_yaw" />
+        <link name="r2/right_middle_proximal" />
+        <link name="r2/right_middle_medial" />
+        <link name="r2/right_middle_distal" />
+        <link name="r2/right_middle_tip" />
+        <link name="r2/right_palm" />
+        <link name="r2/right_little_proximal" />
+        <link name="r2/right_little_medial" />
+        <link name="r2/right_little_distal" />
+        <link name="r2/right_little_tip" />
+        <link name="r2/right_ring_proximal" />
+        <link name="r2/right_ring_medial" />
+        <link name="r2/right_ring_distal" />
+        <link name="r2/right_ring_tip" />
+        <link name="r2/right_thumb_base" />
+        <link name="r2/right_thumb_proximal" />
+        <link name="r2/right_thumb_medial_prime" />
+        <link name="r2/right_thumb_medial" />
+        <link name="r2/right_thumb_distal" />
+        <link name="r2/right_thumb_tip" />
+    </group>
+    <group name="left_hand">
+        <link name="r2/left_wrist_pitch" />
+        <link name="r2/left_wrist_yaw" />
+        <link name="r2/left_index_base" />
+        <link name="r2/left_index_yaw" />
+        <link name="r2/left_index_proximal" />
+        <link name="r2/left_index_medial" />
+        <link name="r2/left_index_distal" />
+        <link name="r2/left_index_tip" />
+        <link name="r2/left_middle_base" />
+        <link name="r2/left_middle_yaw" />
+        <link name="r2/left_middle_proximal" />
+        <link name="r2/left_middle_medial" />
+        <link name="r2/left_middle_distal" />
+        <link name="r2/left_middle_tip" />
+        <link name="r2/left_palm" />
+        <link name="r2/left_little_proximal" />
+        <link name="r2/left_little_medial" />
+        <link name="r2/left_little_distal" />
+        <link name="r2/left_little_tip" />
+        <link name="r2/left_ring_proximal" />
+        <link name="r2/left_ring_medial" />
+        <link name="r2/left_ring_distal" />
+        <link name="r2/left_ring_tip" />
+        <link name="r2/left_thumb_base" />
+        <link name="r2/left_thumb_proximal" />
+        <link name="r2/left_thumb_medial_prime" />
+        <link name="r2/left_thumb_medial" />
+        <link name="r2/left_thumb_distal" />
+        <link name="r2/left_thumb_tip" />
     </group>
     <group name="left_arm">
-        <joint name="r2/left_arm/joint0" />
-        <joint name="r2/left_arm/joint1" />
-        <joint name="r2/left_arm/joint2" />
-        <joint name="r2/left_arm/joint3" />
-        <joint name="r2/left_arm/joint4" />
-        <joint name="r2/left_arm/joint5" />
-        <joint name="r2/left_arm/joint6" />
-    </group>
-    <group name="right_arm">
-        <joint name="r2/right_arm/joint0" />
-        <joint name="r2/right_arm/joint1" />
-        <joint name="r2/right_arm/joint2" />
-        <joint name="r2/right_arm/joint3" />
-        <joint name="r2/right_arm/joint4" />
-        <joint name="r2/right_arm/joint5" />
-        <joint name="r2/right_arm/joint6" />
+        <chain base_link="r2/chest_center" tip_link="r2/left_palm" />
     </group>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="right_hand_ee" parent_link="r2/right_palm" group="right_gripper" />
-    <end_effector name="left_hand_ee" parent_link="r2/left_palm" group="left_arm" />
+    <end_effector name="right_hand_ee" parent_link="r2/right_palm" group="right_arm" />
+    <end_effector name="left_hand_ee" parent_link="r2/left_palm" group="left_hand" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="reference_frame" child_link="world" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
