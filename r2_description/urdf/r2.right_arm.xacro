@@ -33,12 +33,12 @@
       <material name="dirty_white"/>
       <origin rpy="0 0 2.25" xyz="0 0 .0254"/>
     </visual>
-    <collision>
+    <!-- <collision>
       <geometry>
         <mesh filename="package://r2_description/meshes/Right_Shoulder_Upper.dae"/>
       </geometry>
       <origin rpy="0 0 2.35" xyz="0 0 .0254"/>
-    </collision>
+    </collision> -->
     <inertial>
         <origin xyz="0.0089916 -0.00131572  0.10287"/>
         <mass value="6.168856232"/>
@@ -63,12 +63,12 @@
       <material name="dirty_white"/>
       <origin rpy=".0 0 1.57" xyz="0 0 0"/>
     </visual>
-    <collision>
+  <!--   <collision>
       <geometry>
         <mesh filename="package://r2_description/meshes/Right_Shoulder_Lower.dae"/>
       </geometry>
       <origin rpy=".0 0 1.57" xyz="0 0 0"/>
-    </collision>
+    </collision> -->
      <inertial>
         <origin xyz="0.0077978 0.037084 0.00028448"/>
         <mass value="4.4270615312"/>
