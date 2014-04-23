@@ -36,10 +36,10 @@ from geometry_msgs.msg import Point
 from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TransformStamped
+from visualization_msgs.msg import InteractiveMarkerControl
 
 import r2_helper as r2
 import kdl_posemath as pm
-
 
 TORAD = math.pi/180.0
 TODEG = 1.0/TORAD

@@ -148,5 +148,12 @@ def makeZRotControl () :
     control.interaction_mode = InteractiveMarkerControl.ROTATE_AXIS
     return control
 
-
-
+def make6DOFControls() :
+    controls = []
+    controls.append(makeXTransControl())
+    controls.append(makeYTransControl())
+    controls.append(makeZTransControl())
+    controls.append(makeXRotControl())
+    controls.append(makeYRotControl())
+    controls.append(makeZRotControl())
+    return controls
