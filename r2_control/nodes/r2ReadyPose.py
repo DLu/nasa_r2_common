@@ -34,8 +34,6 @@ class r2ReadyPose :
 
         rospy.Subscriber("r2/joint_states", JointState, self.jointStateCallback)
 
-
-
         if self.arm=="left" :
             self.trajPublisher = rospy.Publisher('/r2/l_arm_controller/command', JointTrajectory)
             self.trajClient = actionlib.SimpleActionClient('r2/l_arm_controller/follow_joint_trajectory', FollowJointTrajectoryAction)

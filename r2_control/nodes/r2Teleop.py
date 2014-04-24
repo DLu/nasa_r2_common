@@ -41,60 +41,51 @@ from moveItInterface import *
 from marker_helper import *
 from kdl_posemath import *
 
-class R2Teleop :
+class RobotTeleop :
 
-    def __init__(self,):
+    def __init__(self, robotName, armNames):
 
-        self.server = InteractiveMarkerServer("r2_teleop")
+        self.robotName = robotName
+        self.armNames = armNames
         self.tfListener = tf.TransformListener()
         self.jointData = sensor_msgs.msg.JointState()
 
-        TORAD = math.pi/180.0
-        TODEG = 1.0/TORAD
+        self.server = InteractiveMarkerServer(str(self.robotName + "_teleop"))
+        self.moveItInterface = MoveItInterface(self.robotName,str(self.robotName + "_moveit_config"))
 
         self.markers = {}
         self.markerMenus = {}
         self.armPoseData = {}
+        self.controlFrames = {}
 
-        self.armNames = []
-        self.armNames.append("right_arm")
-        self.armNames.append("left_arm")
+        self.rootFrame = self.moveItInterface.getPlanningFrame()
+        for n in self.armNames :
+            self.moveItInterface.addGroup(n)
+            self.controlFrames[n] = self.moveItInterface.getControlFrame(n)
 
         self.armMenuHandles = {}
         self.armMenuOptions = []
         self.armMenuOptions.append(("Go To Ready Pose", False))
         self.armMenuOptions.append(("Edit Control Point", True))
         self.armMenuOptions.append(("Reset Control Point", False))
-
-        self.controlFrames = {}
-        self.controlFrames["left_arm"] = "r2/left_palm"
-        self.controlFrames["right_arm"] = "r2/right_palm"
-        self.rootFrame = "world"
+        self.armMenuOptions.append(("Sync To Actual", False))
 
         self.armReadyPose = {}
-        self.armReadyPose["left_arm"] = sensor_msgs.msg.JointState()
-        self.armReadyPose["left_arm"].name = ['r2/left_arm/joint'+str(i) for i in range(7)]
-        self.armReadyPose["left_arm"].position = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
-        self.armReadyPose["right_arm"] = sensor_msgs.msg.JointState()
-        self.armReadyPose["right_arm"].name = ['r2/right_arm/joint'+str(i) for i in range(7)]
-        self.armReadyPose["right_arm"].position = [-50.0*TORAD, -80.0*TORAD, 105.0*TORAD, -140.0*TORAD, -80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
-
+        for arm in self.armNames :
+            self.armReadyPose[arm] = self.moveItInterface.getStoredGroupState(arm, str(arm + "_ready_pose"))
 
         self.initializeArmMarkers()
 
-        rospy.Subscriber("r2/joint_states", sensor_msgs.msg.JointState, self.jointStateCallback)
+        rospy.Subscriber(str(self.robotName + "/joint_states"), sensor_msgs.msg.JointState, self.jointStateCallback)
 
 
     def initializeArmMarkers(self) :
 
-        self.armInterfaces = {}
         self.poseUpdateThread = {}
         self.armMenuHandles = {}
         self.markerMenus = {}
 
         for arm in self.armNames :
-
-            # rospy.sleep(0.1)
 
             self.markers[arm] = InteractiveMarker()
             self.markers[arm].controls = make6DOFControls()
@@ -107,21 +98,17 @@ class R2Teleop :
             # marker = makeMesh( int_marker, mesh_name, p, 1.02 )
             # menu_control.markers.append( marker )
             self.markers[arm].controls.append(menu_control)
-
             self.markerMenus[arm] = MenuHandler()
-
             for m,c in self.armMenuOptions :
                 self.armMenuHandles[(arm,m)] = self.markerMenus[arm].insert( m, callback=self.processFeedback )
                 if c : self.markerMenus[arm].setCheckState( self.armMenuHandles[(arm,m)], MenuHandler.UNCHECKED )
 
-            self.armInterfaces[arm] = MoveItInterface(7,"r2",arm)
             self.armPoseData[arm] = geometry_msgs.msg.PoseStamped()
-
             try :
                 self.poseUpdateThread[arm] = PoseUpdateThread(arm, self.rootFrame, self.controlFrames[arm], self.tfListener)
                 self.poseUpdateThread[arm].start()
             except :
-                rospy.logerr("r2Teleop::initializeArmMarkers() -- unable to start arm update thread")
+                rospy.logerr("robotTeleop::initializeArmMarkers() -- unable to start arm update thread")
 
             self.server.insert(self.markers[arm], self.processFeedback)
             self.resetArmMarker(arm)
@@ -144,28 +131,31 @@ class R2Teleop :
 
     def processFeedback(self, feedback) :
         if feedback.event_type == InteractiveMarkerFeedback.MOUSE_UP:
-            if feedback.marker_name in self.armInterfaces.keys() :
+            if feedback.marker_name in self.armNames :
                 pt = geometry_msgs.msg.PoseStamped()
                 pt.header = feedback.header
                 pt.pose = feedback.pose
-                self.armInterfaces[feedback.marker_name].createPlanToTarget(pt)
-                r = self.armInterfaces[feedback.marker_name].executePlan()
-                rospy.loginfo("r2Teleop::processFeedback() -- plan executed.")
+                self.moveItInterface.createPlanToTarget(feedback.marker_name, pt)
+                r = self.moveItInterface.executePlan(feedback.marker_name)
+                rospy.loginfo("robotTeleop::processFeedback() -- plan executed.")
                 if not r :
-                    rospy.logerr(str("r2Teleop::processFeedback() -- failed moveit execution for arm: " + feedback.marker_name + ". re-synching..."))
-                    self.resetArmMarker(feedback.marker_name)
+                    rospy.logerr(str("robotTeleop::processFeedback() -- failed moveit execution for arm: " + feedback.marker_name + ". re-synching..."))
+                # rospy.sleep(3)
+                # self.resetArmMarker(feedback.marker_name)
 
         elif feedback.event_type == InteractiveMarkerFeedback.MENU_SELECT:
-            rospy.loginfo("r2Teleop::processFeedback() -- Menu item " + str(feedback.menu_entry_id) + " clicked marker_name: " + feedback.marker_name  )
-            if feedback.marker_name in self.armInterfaces.keys() :
+            rospy.loginfo("robotTeleop::processFeedback() -- Menu item " + str(feedback.menu_entry_id) + " clicked marker_name: " + feedback.marker_name  )
+            if feedback.marker_name in self.armNames :
                 handle = feedback.menu_entry_id
                 if handle == self.armMenuHandles[(feedback.marker_name,"Go To Ready Pose")] :
-                    self.armInterfaces[feedback.marker_name].createJointPlanToTarget(self.armReadyPose[feedback.marker_name])
-                    r = self.armInterfaces[feedback.marker_name].executePlan()
-                    rospy.loginfo("r2Teleop::processFeedback() -- joint plan executed.")
+                    self.moveItInterface.createJointPlanToTarget(feedback.marker_name, self.armReadyPose[feedback.marker_name])
+                    r = self.moveItInterface.executePlan(feedback.marker_name)
+                    rospy.loginfo("robotTeleop::processFeedback() -- joint plan executed.")
                     if not r :
-                        rospy.logerr(str("r2Teleop::processFeedback() -- failed moveit execution for arm: " + feedback.marker_name + ". re-synching..."))
-                    rospy.sleep(3)
+                        rospy.logerr(str("robotTeleop::processFeedback() -- failed moveit execution for arm: " + feedback.marker_name + ". re-synching..."))
+                    rospy.sleep(2.5)
+                    self.resetArmMarker(feedback.marker_name)
+                if handle == self.armMenuHandles[(feedback.marker_name,"Sync To Actual")] :
                     self.resetArmMarker(feedback.marker_name)
 
     def jointStateCallback(self, data) :
@@ -199,17 +189,16 @@ class PoseUpdateThread(threading.Thread) :
         return self.poseData
 
 if __name__=="__main__":
-    rospy.init_node("r2Teleop")
-    r2 = R2Teleop()
+    rospy.init_node("robotTeleop")
+
+    # r2 = RobotTeleop("r2", ["left_arm", "right_arm"])
+
+    r2 = RobotTeleop("V1", ["left_arm", "right_arm", "left_leg", "right_leg"])
 
     r = rospy.Rate(50.0)
     while not rospy.is_shutdown():
         r.sleep()
     rospy.spin()
-
-
-
-
 
 
 
@@ -1236,8 +1225,8 @@ if __name__=="__main__":
 
 # if __name__=="__main__":
 
-#     rospy.init_node("r2Teleop")
-#     server = InteractiveMarkerServer("r2Teleop")
+#     rospy.init_node("robotTeleop")
+#     server = InteractiveMarkerServer("robotTeleop")
 #     tf_listener = tf.TransformListener()
 
 

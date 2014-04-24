@@ -4,11 +4,12 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /MotionPlanning1
+        - /Global Options1
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
+        - /InteractiveMarkers1
       Splitter Ratio: 0.74256
-    Tree Height: 540
+    Tree Height: 903
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -38,7 +39,7 @@ Visualization Manager:
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
-      Enabled: true
+      Enabled: false
       MoveIt_Goal_Tolerance: 0
       MoveIt_Planning_Time: 5
       MoveIt_Use_Constraint_Aware_IK: true
@@ -930,10 +931,451 @@ Visualization Manager:
         Robot Alpha: 0.5
         Show Robot Collision: false
         Show Robot Visual: true
+      Value: false
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        r2/asus_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/backpack:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/baseplate:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/body_cover:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/chest_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/chest_center:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_camera_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_elbow:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_index_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_index_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_index_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_index_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_index_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_index_yaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_little_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_little_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_little_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_little_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_lower_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_middle_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_middle_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_middle_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_middle_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_middle_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_middle_yaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_palm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_ring_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_ring_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_ring_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_ring_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_shoulder_pitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_shoulder_roll:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_thumb_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_thumb_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_thumb_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_thumb_medial_prime:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_thumb_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_thumb_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_upper_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/left_wrist_pitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/left_wrist_yaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/neck_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/neck_lower_pitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/neck_roll:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/neck_upper_pitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/openni_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_camera_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_elbow:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_index_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_index_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_index_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_index_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_index_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_index_yaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_little_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_little_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_little_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_little_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_lower_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_middle_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_middle_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_middle_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_middle_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_middle_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_middle_yaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_palm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_ring_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_ring_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_ring_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_ring_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_shoulder_pitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_shoulder_roll:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_thumb_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_thumb_distal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_thumb_medial:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_thumb_medial_prime:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_thumb_proximal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_thumb_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_upper_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/right_wrist_pitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/right_wrist_yaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/robot_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/robot_reference:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/robot_world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/simulated_asus_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/stanchion:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        r2/vision_center_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        r2/waist_center:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz/InteractiveMarkers
+      Enable Transparency: true
+      Enabled: true
+      Name: InteractiveMarkers
+      Show Axes: false
+      Show Descriptions: true
+      Show Visual Aids: false
+      Update Topic: /r2_teleop/update
       Value: true
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 0; 0; 0
     Fixed Frame: world
     Frame Rate: 30
   Name: root
@@ -946,22 +1388,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 3.1995
+      Distance: 3.36318
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.113567
-        Y: 0.10592
-        Z: 2.23518e-07
+        X: 0.319745
+        Y: 0.969323
+        Z: 1.63913e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.364797
+      Pitch: 0.119797
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 4.40495
+      Yaw: 4.52996
     Saved: ~
 Window Geometry:
   Displays:
@@ -973,7 +1415,7 @@ Window Geometry:
   Hide Right Dock: false
   Motion Planning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002a200000438fc0200000005fb000000100044006900730070006c006100790073010000003f000002b1000000e900fffffffb0000000800480065006c00700000000342000000bb0000007c00fffffffb0000000a0056006900650077007300000003b0000000b0000000b600fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e006701000002f6000001810000016b00ffffff000004d60000043800000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000001000000000000010f00000438fc0200000005fb000000100044006900730070006c006100790073010000003f0000041c000000e900fffffffb0000000800480065006c00700000000342000000bb0000007c00fffffffb0000000a0056006900650077007300000003b0000000b0000000b600fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000461000000160000001600000016000006690000043800000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1918
