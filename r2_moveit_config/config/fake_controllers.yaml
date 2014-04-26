@@ -57,3 +57,8 @@ controller_list:
       - r2/right_arm/hand/thumb/joint1
       - r2/right_arm/hand/thumb/joint2
       - r2/right_arm/hand/thumb/joint3
+  - name: fake_head_controller
+    joints:
+      - r2/neck/joint0
+      - r2/neck/joint1
+      - r2/neck/joint2
