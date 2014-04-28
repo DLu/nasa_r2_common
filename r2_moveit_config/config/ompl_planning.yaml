@@ -88,3 +88,16 @@ head:
     - PRMstarkConfigDefault
   projection_evaluator: joints(r2/neck/joint0,r2/neck/joint1)
   longest_valid_segment_fraction: 0.05
+waist:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault

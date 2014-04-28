@@ -75,3 +75,9 @@ controller_list:
       - r2/neck/joint0
       - r2/neck/joint1
       - r2/neck/joint2
+  - name: r2/waist_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - r2/waist/joint0

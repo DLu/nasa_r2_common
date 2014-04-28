@@ -62,3 +62,6 @@ controller_list:
       - r2/neck/joint0
       - r2/neck/joint1
       - r2/neck/joint2
+  - name: fake_waist_controller
+    joints:
+      - r2/waist/joint0
