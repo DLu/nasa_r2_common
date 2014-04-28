@@ -106,9 +106,9 @@
         <joint name="r2/neck/joint2" value="-0.09" />
     </group_state>
     <group_state name="head_look_down" group="head">
-        <joint name="r2/neck/joint0" value="-0.5" />
+        <joint name="r2/neck/joint0" value="-0.4" />
         <joint name="r2/neck/joint1" value="0" />
-        <joint name="r2/neck/joint2" value="-0.5" />
+        <joint name="r2/neck/joint2" value="-0.4" />
     </group_state>
     <group_state name="left_hand_close_pose" group="left_hand">
         <joint name="r2/left_arm/hand/index/joint0" value="0" />
