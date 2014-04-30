@@ -5,9 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
-        - /InteractiveMarkers1
+        - /Path Visualization1/Status1
       Splitter Ratio: 0.74256
     Tree Height: 562
   - Class: rviz/Help
@@ -73,7 +72,7 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0.25
         Joint Violation Color: 255; 0; 255
-        Planning Group: head
+        Planning Group: waist
         Query Goal State: true
         Query Start State: false
         Show Workspace: false
@@ -535,11 +534,19 @@ Visualization Manager:
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
       Enabled: true
-      Name: InteractiveMarkers
+      Name: Teleop Markers
       Show Axes: false
       Show Descriptions: true
       Show Visual Aids: false
       Update Topic: /r2_teleop/update
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /r2/move_group/planned_path_visualization
+      Name: Path Visualization
+      Namespaces:
+        r2: true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -556,22 +563,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 3.36318
+      Distance: 3.25161
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.203353
-        Y: 0.751756
-        Z: 4.02332e-07
+        X: -0.206947
+        Y: 0.404896
+        Z: 8.19561e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.294797
+      Pitch: 0.240207
       Target Frame: world
       Value: XYOrbit (rviz)
-      Yaw: 4.68495
+      Yaw: 5.06504
     Saved: ~
 Window Geometry:
   Displays:
