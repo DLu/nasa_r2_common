@@ -21,13 +21,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_foot.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_foot.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
@@ -95,17 +95,17 @@
   <link name="${robot_name}left_leg_jaw0">
     <inertial>
       <mass value="0.16268"/>
-      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot_jaw1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_foot_jaw1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot_jaw1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_foot_jaw1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
@@ -114,17 +114,17 @@
   <link name="${robot_name}left_leg_jaw1">
     <inertial>
       <mass value="0.16268"/>
-      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot_jaw2.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_foot_jaw2.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_foot_jaw2.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_foot_jaw2.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>

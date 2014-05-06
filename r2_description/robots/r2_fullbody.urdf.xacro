@@ -4,11 +4,11 @@
        xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
        xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
        xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-       name="r2c_full_body" >
+       name="r2_fullbody" >
 
   <link name="world"/>
 
-  <property name="robot_name" value= "/r2/" />
+  <property name="robot_name" value= "r2/" />
 
 <!--  transforms in first joint don't seem to work properly-->
   <joint name="${robot_name}fixed/world/robot_world" type="fixed">
@@ -17,10 +17,8 @@
     <origin rpy="0 0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
 
-  <xacro:include filename="$(find r2_description)/robots/r2c_full_body_no_world.urdf.xacro" />
-  <xacro:robot_base_origin>
-    <origin xyz="0 0 1.4" rpy="0 0 0" />
-  </xacro:robot_base_origin>
+  <xacro:include filename="$(find r2_description)/robots/r2_fullbody_no_world.urdf.xacro" />
+
 
 
 </robot>

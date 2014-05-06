@@ -198,7 +198,7 @@ class r2ReadyPose :
 
 
 if __name__ == '__main__':
-    rospy.init_node('r2ReadyPose')
+    rospy.init_node('r2_ready_pose')
     try:
         r2TrajectoryGeneratorLeft = r2ReadyPose(7, 500, "left")
         r2TrajectoryGeneratorRight = r2ReadyPose(7, 500, "right")
@@ -207,10 +207,8 @@ if __name__ == '__main__':
         r2TrajectoryGeneratorRightHand = r2ReadyPose(15, 10, "right_hand")
         rospy.sleep(2)
 
-
         lhrp = [0]*15
         rhrp = [0]*15
-
 
         lrp = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
         rrp = [-50.0*TORAD, -80.0*TORAD, 105.0*TORAD, -140.0*TORAD, -80.0*TORAD, 0.0*TORAD, 0.0*TORAD]

@@ -44,9 +44,9 @@
   <joint name="${robot_name}fixed/right_leg_base/right_leg_j0_base" type="fixed">
     <parent link="${robot_name}right_leg_base"/>
     <child link="${robot_name}right_leg_j0_base"/>
-    <origin rpy="0.0 1.8325957 0" xyz="0.1104900 0.0 -0.0297180"/>	
+    <origin rpy="0.0 1.8325957 0" xyz="0.1104900 0.0 -0.0297180"/>
   </joint>
-  
+
   <non_visual_link name="${robot_name}right_leg_j0_base"/>
 
   <joint name="${robot_name}right_leg/joint0" type="revolute">
@@ -62,17 +62,17 @@
   <link name="${robot_name}right_hip_roll">
     <inertial>
       <mass value="2.33931"/>
-      <inertia ixx="0.02547" ixy="0.00297" ixz="-0.00847" iyy="0.02956" iyz="0.00636" izz="0.01148"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone3.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone3.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone3.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone3.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
     </collision>
@@ -91,17 +91,17 @@
   <link name="${robot_name}right_hip_pitch">
     <inertial>
       <mass value="4.78221"/>
-      <inertia ixx="0.01671" ixy="0.02240" ixz="-0.00120" iyy="0.07877" iyz="0.00049" izz="0.08739"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
@@ -120,17 +120,17 @@
   <link name="${robot_name}right_upper_leg">
     <inertial>
       <mass value="3.73407"/>
-      <inertia ixx="0.05967" ixy="-0.00299" ixz="0.00939" iyy="0.05554" iyz="0.01276" izz="0.01370"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone2.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone2.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone2.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone2.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0.0"/>
     </collision>
@@ -149,17 +149,17 @@
   <link name="${robot_name}right_knee">
     <inertial>
       <mass value="4.78221"/>
-      <inertia ixx="0.01671" ixy="0.02240" ixz="-0.00120" iyy="0.07877" iyz="0.00049" izz="0.08739"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone1.dae"/>
       </geometry>
       <material name="gold"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -179,17 +179,17 @@
   <link name="${robot_name}right_lower_leg">
     <inertial>
       <mass value="3.73407"/>
-      <inertia ixx="0.05967" ixy="-0.00299" ixz="0.00939" iyy="0.05554" iyz="0.01276" izz="0.01370"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone2.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone2.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone2.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone2.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0.0"/>
     </collision>
@@ -208,17 +208,17 @@
   <link name="${robot_name}right_ankle_pitch">
     <inertial>
       <mass value="4.78221"/>
-      <inertia ixx="0.01671" ixy="0.02240" ixz="-0.00120" iyy="0.07877" iyz="0.00049" izz="0.08739"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_bone1.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_bone1.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
@@ -237,7 +237,7 @@
   <link name="${robot_name}right_ankle_roll">
     <inertial>
       <mass value="1.50471"/>
-      <inertia ixx="0.00203" ixy="0.00003" ixz="0.0" iyy="0.00204" iyz="0.0" izz="0.00335"/>
+      <inertia ixx="0.1" ixy="0.00" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
     </inertial>
     <visual>
       <geometry>

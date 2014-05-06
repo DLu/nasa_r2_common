@@ -14,7 +14,7 @@ from copy import copy, deepcopy
 TORAD = math.pi/180.0
 TODEG = 1.0/TORAD
 
-class R2TrajectoryGenerator :
+class r2FullBodyReadyPose :
 
     def __init__(self, N, wp, arm):
 
@@ -32,19 +32,20 @@ class R2TrajectoryGenerator :
 
         self.fingers = [("index",4),("middle",4),("ring",3),("little",3),("thumb",4)]
 
+        rospy.Subscriber("r2/joint_states", JointState, self.jointStateCallback)
 
-
-    def connectToServers(self) :
-
-        rospy.Subscriber("/r2/joint_states", JointState, self.jointStateCallback)
-
-
-        if self.arm=="left" :
+        if self.arm=="left_arm" :
             self.trajPublisher = rospy.Publisher('/r2/l_arm_controller/command', JointTrajectory)
             self.trajClient = actionlib.SimpleActionClient('r2/l_arm_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
-        elif self.arm=="right" :
+        elif self.arm=="right_arm" :
             self.trajPublisher = rospy.Publisher('/r2/r_arm_controller/command', JointTrajectory)
             self.trajClient = actionlib.SimpleActionClient('r2/r_arm_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
+        elif self.arm=="left_leg" :
+            self.trajPublisher = rospy.Publisher('/r2/l_leg_controller/command', JointTrajectory)
+            self.trajClient = actionlib.SimpleActionClient('r2/l_leg_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
+        elif self.arm=="right_leg" :
+            self.trajPublisher = rospy.Publisher('/r2/r_leg_controller/command', JointTrajectory)
+            self.trajClient = actionlib.SimpleActionClient('r2/r_leg_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
         elif self.arm=="left_hand" :
             self.trajPublisher = rospy.Publisher('/r2/l_hand_controller/command', JointTrajectory)
             self.trajClient = actionlib.SimpleActionClient('r2/l_hand_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
@@ -55,7 +56,7 @@ class R2TrajectoryGenerator :
             self.trajPublisher = rospy.Publisher('/r2/neck_controller/command', JointTrajectory)
             self.trajClient = actionlib.SimpleActionClient('r2/neck_controller/follow_joint_trajectory', FollowJointTrajectoryAction)
         else :
-            rospy.logerr("R2TrajectoryGenerator::R2TrajectoryGenerator() -- unknown arm")
+            rospy.logerr("r2FullBodyReadyPose::r2FullBodyReadyPose() -- unknown arm")
 
         self.trajClient.wait_for_server()
 
@@ -66,10 +67,6 @@ class R2TrajectoryGenerator :
         return self.numJoints
 
     def jointStateCallback(self, data):
-        # if self.numJoints != len(data.position) or self.numJoints != len(data.name) :
-        #     rospy.logerr("R2TrajectoryGenerator::jointStateCallback() -- /joint_states has different number of joints!")
-        # else :
-        #     print "asfasfds", data
         self.currentState = data
 
     def computeTrajectory(self, desiredData, deadline):
@@ -79,17 +76,16 @@ class R2TrajectoryGenerator :
         desiredState = copy(desiredData)
 
         # create simple lists of both current and desired positions, based on provided desired names
-        rospy.loginfo("R2TrajectoryGenerator::computeTrajectory() -- finding necessary joints")
+        rospy.loginfo("r2FullBodyReadyPose::computeTrajectory() -- finding necessary joints")
         desiredPositions = []
         currentPositions = []
-        # print desiredData
         for desIndex in range(len(desiredState.name)) :
             for curIndex in range(len(currentState.name)) :
                 if ( desiredState.name[desIndex] == currentState.name[curIndex] ) :
                     desiredPositions.append(desiredState.position[desIndex])
                     currentPositions.append(currentState.position[curIndex])
 
-        rospy.loginfo("R2TrajectoryGenerator::computeTrajectory() -- creating trajectory")
+        rospy.loginfo("r2FullBodyReadyPose::computeTrajectory() -- creating trajectory")
         jointTraj.joint_names = desiredState.name
         jointTraj.points = list()
 
@@ -101,14 +97,11 @@ class R2TrajectoryGenerator :
 
             trajPoint.positions = list()
             for i in range(len(desiredPositions)) :
-                # simple linear progression, needs to be replaced with something better
-                #trajPoint.positions.append( currentPositions[i] + ( (desiredPositions[i] - currentPositions[i]) * ((j+1) / self.waypoints) ) )
                 trajPoint.positions.append( self.minJerk(currentPositions[i], desiredPositions[i], deadline, t) )
 
             jointTraj.points.append(trajPoint)
 
-        rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- using tolerances")
-        # print jointTraj
+        rospy.loginfo("r2FullBodyReadyPose::moveToGoal() -- using tolerances")
 
         return jointTraj
 
@@ -119,21 +112,19 @@ class R2TrajectoryGenerator :
 
     def moveToGoal(self, jointGoal, deadline, useTolerances) :
 
-        #self.trajPublisher.publish(self.computeTrajectory(jointGoal, deadline))
         self.actionGoal.trajectory = self.computeTrajectory(jointGoal, deadline)
 
-        # print "srv:", self.cmdTrajectory(self.actionGoal.trajectory)
         offset = 0
 
         if useTolerances :
-            rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- using tolerances")
+            rospy.loginfo("r2FullBodyReadyPose::moveToGoal() -- using tolerances")
             self.actionGoal.path_tolerance = []
             self.actionGoal.goal_tolerance = []
 
             if self.arm == "left_hand" :
                 for k in range(len(self.fingers)):
                     for j in range(self.fingers[k][1]):
-                        tol.name = "/r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
+                        tol.name = "r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
                         tol.position = 0.2
                         tol.velocity = 1
                         tol.acceleration = 10
@@ -142,7 +133,7 @@ class R2TrajectoryGenerator :
             elif self.arm == "right_hand" :
                 for k in range(len(self.fingers)):
                     for i in range(self.fingers[k][1]):
-                        tol.name = "/r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
+                        tol.name = "r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(j+offset)
                         print tol.name
                         tol.position = 0.2
                         tol.velocity = 1
@@ -152,10 +143,12 @@ class R2TrajectoryGenerator :
             else :
                 for i in range(self.numJoints):
                     tol = JointTolerance()
-                    if self.arm == "left" or self.arm == "right" :
-                        tol.name = "/r2/" + self.arm + "_arm/joint" + str(i+offset)
+                    if self.arm == "left_arm" or self.arm == "right_arm" :
+                        tol.name = "r2/" + self.arm + "/joint" + str(i+offset)
+                    if self.arm == "left_leg" or self.arm == "right_leg" :
+                        tol.name = "r2/" + self.arm + "/joint" + str(i+offset)
                     elif self.arm == "neck" :
-                        tol.name = "/r2/" + self.arm + "/joint" + str(i+offset)
+                        tol.name = "r2/" + self.arm + "/joint" + str(i+offset)
                     tol.position = 0.2
                     tol.velocity = 1
                     tol.acceleration = 10
@@ -164,23 +157,22 @@ class R2TrajectoryGenerator :
                     self.actionGoal.goal_tolerance.append(tol)
 
         else :
-            rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- not using tolerances")
+            rospy.loginfo("r2FullBodyReadyPose::moveToGoal() -- not using tolerances")
 
         self.actionGoal.goal_time_tolerance = rospy.Duration(10.0)
 
         # send goal nad monitor response
         self.trajClient.send_goal(self.actionGoal)
-        # self.trajClient.wait_for_result(rospy.Duration.from_sec(4.0))
 
-        rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- returned state: %s", str(self.trajClient.get_state()))
-        rospy.loginfo("R2TrajectoryGenerator::moveToGoal() -- returned result: %s", str(self.trajClient.get_result()))
+        rospy.loginfo("r2FullBodyReadyPose::moveToGoal() -- returned state: %s", str(self.trajClient.get_state()))
+        rospy.loginfo("r2FullBodyReadyPose::moveToGoal() -- returned result: %s", str(self.trajClient.get_result()))
 
         return
 
     def formatJointStateMsg(self, j, offset) :
 
         if not (len(j) == self.numJoints) :
-            rospy.logerr("R2TrajectoryGenerator::formatJointStateMsg() -- incorrectly sized joint message")
+            rospy.logerr("r2FullBodyReadyPose::formatJointStateMsg() -- incorrectly sized joint message")
             return None
 
         js = JointState()
@@ -191,88 +183,72 @@ class R2TrajectoryGenerator :
         js.position = []
 
 
-        if self.arm == "left" or self.arm == "right" :
+        if self.arm == "left_arm" or self.arm == "right_arm" :
             for i in range(self.numJoints):
-                js.name.append("/r2/" + self.arm + "_arm/joint" + str(i+offset))
+                js.name.append("r2/" + self.arm + "/joint" + str(i+offset))
+                js.position.append(j[i])
+        if self.arm == "left_leg" or self.arm == "right_leg" :
+            for i in range(self.numJoints):
+                js.name.append("r2/" + self.arm + "/joint" + str(i+offset))
                 js.position.append(j[i])
         if self.arm == "left_hand" :
             for k in range(len(self.fingers)):
                 for i in range(self.fingers[k][1]):
-                    js.name.append("/r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
+                    js.name.append("r2/left_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
                     js.position.append(j[i])
         if self.arm == "right_hand" :
             for k in range(len(self.fingers)):
                 for i in range(self.fingers[k][1]):
-                    js.name.append("/r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
+                    js.name.append("r2/right_arm/hand/" + self.fingers[k][0] + "/joint" + str(i+offset))
                     js.position.append(j[i])
         elif self.arm == "neck" :
             for i in range(self.numJoints):
-                js.name.append("/r2/" + self.arm + "/joint" + str(i+offset))
+                js.name.append("r2/" + self.arm + "/joint" + str(i+offset))
                 js.position.append(j[i])
 
         return js
 
 
 if __name__ == '__main__':
-    rospy.init_node('r2TrajectoryGenerator')
+    rospy.init_node('r2_ready_pose')
     try:
-        r2TrajectoryGeneratorLeft = R2TrajectoryGenerator(7, 500, "left")
-        r2TrajectoryGeneratorRight = R2TrajectoryGenerator(7, 500, "right")
-        r2TrajectoryGeneratorNeck = R2TrajectoryGenerator(3, 500, "neck")
-        r2TrajectoryGeneratorLeftHand = R2TrajectoryGenerator(15, 10, "left_hand")
-        r2TrajectoryGeneratorRightHand = R2TrajectoryGenerator(15, 10, "right_hand")
-
-        r2TrajectoryGeneratorLeft.connectToServers()
-        r2TrajectoryGeneratorRight.connectToServers()
-        r2TrajectoryGeneratorNeck.connectToServers()
-        r2TrajectoryGeneratorLeftHand.connectToServers()
-        r2TrajectoryGeneratorRightHand.connectToServers()
-        
+        r2TrajectoryGeneratorLeftArm = r2FullBodyReadyPose(7, 500, "left_arm")
+        r2TrajectoryGeneratorRightArm = r2FullBodyReadyPose(7, 500, "right_arm")
+        r2TrajectoryGeneratorLeftLeg = r2FullBodyReadyPose(7, 500, "left_leg")
+        r2TrajectoryGeneratorRightLeg = r2FullBodyReadyPose(7, 500, "right_leg")
+        r2TrajectoryGeneratorNeck = r2FullBodyReadyPose(3, 500, "neck")
+        r2TrajectoryGeneratorLeftHand = r2FullBodyReadyPose(15, 10, "left_hand")
+        r2TrajectoryGeneratorRightHand = r2FullBodyReadyPose(15, 10, "right_hand")
         rospy.sleep(2)
 
 
         lhrp = [0]*15
         rhrp = [0]*15
 
-        for i in range(3) :
+        larp = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
+        rarp = [-50.0*TORAD, -80.0*TORAD, 105.0*TORAD, -140.0*TORAD, -80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
 
-            lrp = [50.0*TORAD, -80.0*TORAD, -105.0*TORAD, -140.0*TORAD, 80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
-            rrp = [-50.0*TORAD, -80.0*TORAD, 105.0*TORAD, -140.0*TORAD, -80.0*TORAD, 0.0*TORAD, 0.0*TORAD]
-            nrp = [-20.0*TORAD, 0.0*TORAD, -15.0*TORAD]
-            print "ready pose"
+        llrp = [-1.2, 0.0, -2.0, 2.25, 0.8, 1.5, 2.5]
+        rlrp = [1.2, 0.0, 2.0, 2.25, -0.8, 1.5, -2.5]
 
+        nrp = [-20.0*TORAD, 0.0*TORAD, -15.0*TORAD]
+        print "r2FullBodyReadyPose() -- moving to ready pose"
 
-            jointGoalLeft = r2TrajectoryGeneratorLeft.formatJointStateMsg(lrp, 0)
-            jointGoalRight = r2TrajectoryGeneratorRight.formatJointStateMsg(rrp, 0)
-            jointGoalNeck = r2TrajectoryGeneratorNeck.formatJointStateMsg(nrp, 0)
-            jointGoalLeftHand = r2TrajectoryGeneratorLeftHand.formatJointStateMsg(lhrp, 0)
-            jointGoalRightHand = r2TrajectoryGeneratorRightHand.formatJointStateMsg(rhrp, 0)
-            r2TrajectoryGeneratorLeft.moveToGoal(jointGoalLeft, 0.5, False)
-            r2TrajectoryGeneratorRight.moveToGoal(jointGoalRight, 0.5, False)
-            r2TrajectoryGeneratorLeftHand.moveToGoal(jointGoalLeftHand, 0.1, False)
-            r2TrajectoryGeneratorRightHand.moveToGoal(jointGoalRightHand, 0.1, False)
-            r2TrajectoryGeneratorNeck.moveToGoal(jointGoalNeck, 0.5, False)
+        jointGoalLeftArm = r2TrajectoryGeneratorLeftArm.formatJointStateMsg(larp, 0)
+        jointGoalRightArm = r2TrajectoryGeneratorRightArm.formatJointStateMsg(rarp, 0)
+        jointGoalLeftLeg = r2TrajectoryGeneratorLeftLeg.formatJointStateMsg(llrp, 0)
+        jointGoalRightLeg = r2TrajectoryGeneratorRightLeg.formatJointStateMsg(rlrp, 0)
+        jointGoalNeck = r2TrajectoryGeneratorNeck.formatJointStateMsg(nrp, 0)
+        jointGoalLeftHand = r2TrajectoryGeneratorLeftHand.formatJointStateMsg(lhrp, 0)
+        jointGoalRightHand = r2TrajectoryGeneratorRightHand.formatJointStateMsg(rhrp, 0)
 
-            rospy.sleep(4)
-
-            lrp = [0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.0]
-            rrp = [0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.0]
-            nrp = [-5.0*TORAD, 0.0*TORAD, -5.0*TORAD]
-            print "zero pose"
-
-
-            jointGoalLeft = r2TrajectoryGeneratorLeft.formatJointStateMsg(lrp, 0)
-            jointGoalRight = r2TrajectoryGeneratorRight.formatJointStateMsg(rrp, 0)
-            jointGoalNeck = r2TrajectoryGeneratorNeck.formatJointStateMsg(nrp, 0)
-            jointGoalLeftHand = r2TrajectoryGeneratorLeftHand.formatJointStateMsg(lhrp, 0)
-            jointGoalRightHand = r2TrajectoryGeneratorRightHand.formatJointStateMsg(rhrp, 0)
-            r2TrajectoryGeneratorLeft.moveToGoal(jointGoalLeft, 0.1, False)
-            r2TrajectoryGeneratorRight.moveToGoal(jointGoalRight, 0.1, False)
-            r2TrajectoryGeneratorLeftHand.moveToGoal(jointGoalLeftHand, 0.1, False)
-            r2TrajectoryGeneratorRightHand.moveToGoal(jointGoalRightHand, 0.1, False)
-            r2TrajectoryGeneratorNeck.moveToGoal(jointGoalNeck, 0.1, False)
-
-            rospy.sleep(4)
+        r2TrajectoryGeneratorLeftArm.moveToGoal(jointGoalLeftArm, 0.5, False)
+        r2TrajectoryGeneratorRightArm.moveToGoal(jointGoalRightArm, 0.5, False)
+        r2TrajectoryGeneratorLeftLeg.moveToGoal(jointGoalLeftLeg, 0.5, False)
+        r2TrajectoryGeneratorRightLeg.moveToGoal(jointGoalRightLeg, 0.5, False)
+        r2TrajectoryGeneratorLeftHand.moveToGoal(jointGoalLeftHand, 0.1, False)
+        r2TrajectoryGeneratorRightHand.moveToGoal(jointGoalRightHand, 0.1, False)
+        r2TrajectoryGeneratorNeck.moveToGoal(jointGoalNeck, 0.5, False)
 
     except rospy.ROSInterruptException:
         pass

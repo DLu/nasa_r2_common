@@ -8,14 +8,14 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_pelvis.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_pelvis.dae"/>
       </geometry>
       <material name="gold"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://r2_description/meshes/r2c_legs/r2cl_ext_pelvis.dae"/>
+        <mesh filename="package://r2_description/meshes/r2_legs/r2cl_ext_pelvis.dae"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </collision>
