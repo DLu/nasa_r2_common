@@ -82,10 +82,10 @@
         <chain base_link="r2/robot_base" tip_link="r2/body_cover" />
     </group>
     <group name="left_leg">
-        <chain base_link="r2/pelvis" tip_link="r2/left_leg_foot" />
+        <chain base_link="r2/left_leg_j0_base" tip_link="r2/left_leg_foot" />
     </group>
     <group name="right_leg">
-        <chain base_link="r2/pelvis" tip_link="r2/right_leg_foot" />
+        <chain base_link="r2/right_leg_j0_base" tip_link="r2/right_leg_foot" />
     </group>
     <group name="left_foot">
         <link name="r2/left_hr_tip" />
