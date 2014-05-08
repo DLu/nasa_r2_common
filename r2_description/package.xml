@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>r2_control</name>
+  <name>r2_description</name>
   <version>0.0.0</version>
-  <description>The r2_control package</description>
+  <description>The r2_description package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -36,10 +36,6 @@
   <!-- Use buildtool_depend for build tool packages: -->
   <!--   <buildtool_depend>catkin</buildtool_depend> -->
   <!-- Use run_depend for packages you need at runtime: -->
-  <run_depend>control_msgs</run_depend>
-  <run_depend>trajectory_msgs</run_depend>
-  <run_depend>sensor_msgs</run_depend>
-  <run_depend>actionlib</run_depend>
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>

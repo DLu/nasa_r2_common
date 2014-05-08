@@ -88,24 +88,12 @@
         <chain base_link="r2/right_leg_j0_base" tip_link="r2/right_leg_foot" />
     </group>
     <group name="left_foot">
-        <link name="r2/left_hr_tip" />
-        <link name="r2/left_leg_camera0_physical" />
-        <link name="r2/left_leg_camera0_optical" />
-        <link name="r2/left_leg_camera1_physical" />
-        <link name="r2/left_leg_camera1_optical" />
-        <link name="r2/left_st_tip" />
         <link name="r2/left_leg/gripper/link0" />
         <link name="r2/left_leg_jaw0" />
         <link name="r2/left_leg_jaw1" />
         <link name="r2/left_leg_foot" />
     </group>
     <group name="right_foot">
-        <link name="r2/right_hr_tip" />
-        <link name="r2/right_leg_camera0_physical" />
-        <link name="r2/right_leg_camera0_optical" />
-        <link name="r2/right_leg_camera1_physical" />
-        <link name="r2/right_leg_camera1_optical" />
-        <link name="r2/right_st_tip" />
         <link name="r2/right_leg/gripper/link0" />
         <link name="r2/right_leg_jaw0" />
         <link name="r2/right_leg_jaw1" />
