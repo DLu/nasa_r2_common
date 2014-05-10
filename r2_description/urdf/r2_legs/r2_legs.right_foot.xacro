@@ -34,6 +34,21 @@
     </collision>
   </link>
 
+  <joint name="${robot_name}fixed/right_foot/simulated_camboard" type="fixed">
+    <parent link="${robot_name}right_leg_foot"/>
+    <child link="${robot_name}simulated_right_foot_camboard_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="0 -1.57 -1.57" xyz="0.015 0.07 .165"/>
+  </joint>
+
+  <joint name="${robot_name}fixed/right_foot/simulated_camboard_depth" type="fixed">
+    <parent link="${robot_name}right_leg_foot"/>
+    <child link="${robot_name}simulated_right_foot_camboard_depth_frame"/>
+    <dynamics damping="1.0" />
+    <origin rpy="3.14 3.14 0" xyz="0.015 0.07 .165"/>
+  </joint>
+
+
 <!--  placeholder for screw joint-->
   <joint name="${robot_name}right_leg/gripper/joint0" type="prismatic">
     <parent link="${robot_name}right_leg_foot"/>
@@ -94,6 +109,22 @@
   <non_visual_link name="${robot_name}right_hr_tip"/>
 
   <non_visual_link name="${robot_name}right_st_tip"/>
+
+  <!-- simulated camboard -->
+  <link name="${robot_name}simulated_right_foot_camboard_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".01" ixy="0.0" ixz="0.0" iyy=".01" iyz="0.0" izz=".01"/>
+    </inertial>
+  </link>
+
+  <!-- simulated camboard -->
+  <link name="${robot_name}simulated_right_foot_camboard_depth_frame">
+    <inertial>
+      <mass value=".1"/>
+      <inertia ixx=".01" ixy="0.0" ixz="0.0" iyy=".01" iyz="0.0" izz=".01"/>
+    </inertial>
+  </link>
 
   <link name="${robot_name}right_leg_jaw0">
     <inertial>
