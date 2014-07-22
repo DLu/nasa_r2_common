@@ -4,7 +4,7 @@
   <version>0.1.3</version>
   <description>The r2_msgs package</description>
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
-  <maintainer email="davidvlu@gmail.com">David Lu!!</maintainer>
+  <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
   <license>BSD</license>
   <url type="website">http://ros.org/wiki/r2_msgs</url>
   <buildtool_depend>catkin</buildtool_depend>
