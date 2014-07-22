@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(r2_fullbody_moveit_config)
 
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS r2_gazebo)
 
 catkin_package()
 

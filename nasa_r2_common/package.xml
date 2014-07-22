@@ -2,7 +2,7 @@
 <package>
   <name>nasa_r2_common</name>
   <version>0.1.3</version>
-  <description>The nasa_r2_common package</description>
+  <description>Core components of ROS/Robonaut2</description>
 
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
