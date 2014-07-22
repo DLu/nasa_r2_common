@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot>
 
-  <property name="waist_j0_damping" value= "10.0" />
-  <property name="waist_j0_friction" value= "0.0" />
+  <property name="waist_j0_damping" value= "20.0" />
+  <property name="waist_j0_friction" value= "1.0" />
 
   <joint name="${robot_name}waist/joint0" type="revolute">
     <parent link="${robot_name}robot_base"/>
@@ -18,14 +18,14 @@
       <geometry>
          <mesh filename="package://r2_description/meshes/Body.dae"/>  
       </geometry>
-      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+      <origin rpy="-1.57 0 -1.57" xyz="0.01 0.05 -0.5625"/>
     </visual>
-    <collision>
+    <!-- <collision>
       <geometry>
          <mesh filename="package://r2_description/meshes/Body.dae"/>  
       </geometry>
-      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
-    </collision>
+      <origin rpy="-1.57 0 -1.57" xyz="0.00 0.05 -0.5625"/>
+    </collision> -->
     <inertial>
       <mass value="10"/>
       <inertia ixx="1" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="1"/>
@@ -63,13 +63,14 @@
       <geometry>
          <mesh filename="package://r2_description/meshes/Body_Cover.dae"/>  
       </geometry>
-      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+<!--       <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+ -->      <origin rpy="-1.57 0 -1.57" xyz="0.01 0.05 -0.5625"/>
     </visual>
     <collision>
       <geometry>
          <mesh filename="package://r2_description/meshes/Body_Cover.dae"/>  
       </geometry>
-      <origin rpy="-1.57 0 -1.57" xyz="0.02 0.05 -0.5625"/>
+      <origin rpy="-1.57 0 -1.57" xyz="0.01 0.05 -0.5625"/>
     </collision>
     <inertial>
         <mass value="0.1"/>

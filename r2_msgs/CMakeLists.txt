@@ -1,31 +1,27 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(r2_msgs)
 
-find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  std_msgs
-  visualization_msgs
-  message_generation
-)
+find_package(catkin REQUIRED COMPONENTS message_generation message_runtime std_msgs visualization_msgs geometry_msgs)
 
+## Generate messages in the 'msg' folder
 add_message_files(
-  DIRECTORY msg
   FILES
   Gains.msg
   JointControl.msg
-  JointStatus.msg
   JointStatusArray.msg
+  JointStatus.msg
   PDMCStatus.msg
-  PoseCommand.msg
   PoseCommandArray.msg
+  PoseCommand.msg
   PoseCommandParams.msg
   PoseCommandStatus.msg
   PoseTwistStamped.msg
   TorsoStatus.msg
 )
 
+
+## Generate services in the 'srv' folder
 add_service_files(
-  DIRECTORY srv
   FILES
   ParseTableScene.srv
   Power.srv
@@ -36,18 +32,19 @@ add_service_files(
   TakeSnapshot.srv
 )
 
+## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  geometry_msgs
   std_msgs
+  geometry_msgs
   visualization_msgs
 )
 
 catkin_package(
-  CATKIN_DEPENDS
-  message_runtime
-  geometry_msgs
-  std_msgs
-  visualization_msgs
-  message_generation
+   CATKIN_DEPENDS 
+    std_msgs 
+    geometry_msgs
+    visualization_msgs
+    message_generation
+    message_runtime
 )

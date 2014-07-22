@@ -13,3 +13,4 @@ catkin_package(
 install(DIRECTORY urdf robots meshes
  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
