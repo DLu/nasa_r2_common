@@ -2,7 +2,7 @@
 <package>
   <name>r2_control</name>
   <version>0.0.0</version>
-  <description>The r2_control package</description>
+  <description>Ready Poses for the Robonaut2</description>
 
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
