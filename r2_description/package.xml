@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>r2_description</name>
-  <version>0.1.3</version>
+  <version>1.0.0</version>
   <description>URDF/Meshes/Models for Robonaut2</description>
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
   <maintainer email="stephen.hart@nasa.gov">Stephen Hart</maintainer>
