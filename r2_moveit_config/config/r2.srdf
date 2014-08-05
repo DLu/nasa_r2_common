@@ -100,6 +100,24 @@
         <joint name="r2/right_arm/joint5" value="0" />
         <joint name="r2/right_arm/joint6" value="0" />
     </group_state>
+    <group_state name="Left Arm High Ready Pose" group="left_arm">
+        <joint name="r2/left_arm/joint0" value="-0.4" />
+        <joint name="r2/left_arm/joint1" value="-0.5" />
+        <joint name="r2/left_arm/joint2" value="-1.57" />
+        <joint name="r2/left_arm/joint3" value="-2.0" />
+        <joint name="r2/left_arm/joint4" value="0.7" />
+        <joint name="r2/left_arm/joint5" value="0.3" />
+        <joint name="r2/left_arm/joint6" value="-0.6" />
+    </group_state>
+    <group_state name="Right Arm High Ready Pose" group="right_arm">
+        <joint name="r2/right_arm/joint0" value="0.4" />
+        <joint name="r2/right_arm/joint1" value="-0.5" />
+        <joint name="r2/right_arm/joint2" value="1.57" />
+        <joint name="r2/right_arm/joint3" value="-2.0" />
+        <joint name="r2/right_arm/joint4" value="-0.7" />
+        <joint name="r2/right_arm/joint5" value="0.3" />
+        <joint name="r2/right_arm/joint6" value="0.6" />
+    </group_state>
     <group_state name="Head Ready Pose" group="head">
         <joint name="r2/neck/joint0" value="-0.09" />
         <joint name="r2/neck/joint1" value="0" />
