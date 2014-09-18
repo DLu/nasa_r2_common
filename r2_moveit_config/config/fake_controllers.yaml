@@ -65,3 +65,19 @@ controller_list:
   - name: fake_waist_controller
     joints:
       - r2/waist/joint0
+  - name: fake_both_arms_controller
+    joints:
+      - r2/left_arm/joint0
+      - r2/left_arm/joint1
+      - r2/left_arm/joint2
+      - r2/left_arm/joint3
+      - r2/left_arm/joint4
+      - r2/left_arm/joint5
+      - r2/left_arm/joint6
+      - r2/right_arm/joint0
+      - r2/right_arm/joint1
+      - r2/right_arm/joint2
+      - r2/right_arm/joint3
+      - r2/right_arm/joint4
+      - r2/right_arm/joint5
+      - r2/right_arm/joint6
